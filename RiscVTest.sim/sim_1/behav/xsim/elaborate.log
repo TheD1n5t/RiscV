@@ -1,0 +1,28 @@
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: /home/krischan-ledwig/Documents/Tools/Xilinx/Vivado/2024.1/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot tb_riscv_soc_boot_behav xil_defaultlib.tb_riscv_soc_boot -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package std.env
+Compiling package ieee.std_logic_textio
+Compiling architecture rtl of entity xil_defaultlib.uart_rx [\uart_rx(baud=1000000)\]
+Compiling architecture rtl of entity xil_defaultlib.imem_dp_ram [imem_dp_ram_default]
+Compiling architecture syn of entity xil_defaultlib.dmem [\dmem(g_fault_inject=true)\]
+Compiling architecture rtl of entity xil_defaultlib.simple_timer [simple_timer_default]
+Compiling architecture rtl of entity xil_defaultlib.decoder [decoder_default]
+Compiling architecture rtl of entity xil_defaultlib.regfile [\regfile(g_fault_inject=true,g_s...]
+Compiling architecture rtl of entity xil_defaultlib.csr_file [csr_file_default]
+Compiling architecture behavioral of entity xil_defaultlib.alu [alu_default]
+Compiling architecture rtl of entity xil_defaultlib.riscv_core_memless [riscv_core_memless_default]
+Compiling architecture rtl of entity xil_defaultlib.riscv_soc_boot [\riscv_soc_boot(baud=1000000)\]
+Compiling architecture sim of entity xil_defaultlib.tb_riscv_soc_boot
+Built simulation snapshot tb_riscv_soc_boot_behav
