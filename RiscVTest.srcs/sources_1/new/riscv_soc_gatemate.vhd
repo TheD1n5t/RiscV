@@ -4,11 +4,18 @@ use ieee.numeric_std.all;
 
 entity riscv_soc_gatemate is
   port (
-    clk_i  : in  std_logic; -- 10 MHz board clock
-    rstn_i : in  std_logic; -- low active button
-    rxd_i  : in  std_logic; -- UART RX from PMOD/USB-UART
-    txd_o  : out std_logic; -- UART TX to PMOD/USB-UART
-    led_o  : out std_logic  -- board LED
+    clk_i        : in  std_logic; -- 10 MHz board clock
+    rstn_i       : in  std_logic; -- low active button
+    rxd_i        : in  std_logic; -- UART RX from PMOD/USB-UART
+    txd_o        : out std_logic; -- UART TX to PMOD/USB-UART
+    led_o        : out std_logic; -- board LED
+    boot_mode_i  : in  std_logic;
+    qspi_sck_o   : out std_logic;
+    qspi_cs_n_o  : out std_logic;
+    qspi_io0_o   : out std_logic;
+    qspi_io1_i   : in  std_logic;
+    qspi_io2_o   : out std_logic;
+    qspi_io3_o   : out std_logic
   );
 end entity;
 
@@ -19,7 +26,8 @@ begin
     generic map(
       CLK_FREQ_HZ => 10_000_000,
       BAUD        => 115200,
-      IMEM_WORDS  => 4096
+      IMEM_WORDS  => 4096,
+      SPI_CLK_DIV => 10
     )
     port map(
       clk              => clk_i,
@@ -27,38 +35,24 @@ begin
       uart_rx_i        => rxd_i,
       uart_tx_o        => txd_o,
       led0_o           => led_o,
+      boot_mode_i      => boot_mode_i,
+      qspi_sck_o       => qspi_sck_o,
+      qspi_cs_n_o      => qspi_cs_n_o,
+      qspi_io0_o       => qspi_io0_o,
+      qspi_io1_i       => qspi_io1_i,
+      qspi_io2_o       => qspi_io2_o,
+      qspi_io3_o       => qspi_io3_o,
 
       -- debug outputs left open for hardware build
       boot_done_o      => open,
+      boot_error_o     => open,
       prog_we_o        => open,
       prog_addr_o      => open,
       prog_wdata_o     => open,
       imem_pc_o        => open,
       dmem_we_o        => open,
       dmem_addr_o      => open,
-      dmem_wdata_o     => open,
-
-      -- no external FI in hardware build
-      fi_pc_mask_i      => (others => '0'),
-      fi_pc_target_i    => (others => '0'),
-      fi_pc_strobe_i    => '0',
-
-      fi_state_mask_i   => (others => '0'),
-      fi_state_target_i => (others => '0'),
-      fi_state_strobe_i => '0',
-
-      fi_dmem_mask_i    => (others => '0'),
-      fi_dmem_addr_i    => (others => '0'),
-      fi_dmem_strobe_i  => '0',
-
-      fi_rf_mask_i      => (others => '0'),
-      fi_rf_addr_i      => (others => '0'),
-      fi_rf_target_i    => (others => '0'),
-      fi_rf_strobe_i    => '0',
-
-      fi_imem_mask_i    => (others => '0'),
-      fi_imem_addr_i    => (others => '0'),
-      fi_imem_strobe_i  => '0'
+      dmem_wdata_o     => open
     );
 
 end architecture;

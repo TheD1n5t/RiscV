@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>RiscVFSM Core einfach erklaert</title>
+  <style>
+    @page { size: A4; margin: 15mm 13mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #19232f;
+      background: #ffffff;
+      font: 11.4pt/1.55 "Segoe UI", Arial, sans-serif;
+    }
+    h1, h2, h3 { margin: 0 0 7px; color: #172335; line-height: 1.18; page-break-after: avoid; }
+    h1 { font-size: 30pt; }
+    h2 { font-size: 18pt; margin-top: 18px; border-bottom: 2px solid #d8e1e8; padding-bottom: 4px; }
+    h3 { font-size: 13pt; margin-top: 12px; color: #23415d; }
+    p { margin: 0 0 8px; }
+    ul { margin: 5px 0 9px 20px; padding: 0; }
+    li { margin: 3px 0; }
+    code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 9.7pt; color: #12385d; }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 10px; page-break-inside: avoid; }
+    th, td { border: 1px solid #d6dee8; padding: 6px 7px; text-align: left; vertical-align: top; }
+    th { background: #edf3f8; color: #12314f; }
+    .cover {
+      min-height: 246mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 9px solid #2d6f85;
+      padding-left: 18mm;
+    }
+    .subtitle { font-size: 15pt; color: #4b5c6d; margin-top: 8px; max-width: 155mm; }
+    .meta { margin-top: 20px; color: #5c6b78; }
+    .note, .learning {
+      background: #f4f8fb;
+      border-left: 4px solid #2d6f85;
+      padding: 9px 11px;
+      margin: 10px 0;
+      page-break-inside: avoid;
+    }
+    .learning { background: #fff8ec; border-left-color: #b67526; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .box {
+      border: 1px solid #d6dee8;
+      border-radius: 6px;
+      padding: 9px 10px;
+      background: #fbfdff;
+      page-break-inside: avoid;
+    }
+    .svgwrap {
+      margin: 10px 0 14px;
+      border: 1px solid #d8e0ea;
+      border-radius: 6px;
+      padding: 6px;
+      background: #fff;
+      page-break-inside: avoid;
+    }
+    svg { width: 100%; height: auto; display: block; }
+    .small { font-size: 9.7pt; color: #4f5f6d; }
+    .pagebreak { page-break-before: always; }
+    .tag { display: inline-block; padding: 1px 6px; border-radius: 4px; background: #e8f3f2; color: #174d54; font-size: 9pt; }
+    .diagram text { font-family: "Segoe UI", Arial, sans-serif; fill: #18222f; }
+    .block { fill: #f8fbfd; stroke: #58738a; stroke-width: 1.3; rx: 7; }
+    .block2 { fill: #eef7f6; stroke: #2d6f85; stroke-width: 1.3; rx: 7; }
+    .block3 { fill: #fff7ea; stroke: #b67526; stroke-width: 1.3; rx: 7; }
+    .wire { stroke: #32506a; stroke-width: 1.5; marker-end: url(#arrow); fill: none; }
+    .wire2 { stroke: #9b5f17; stroke-width: 1.4; marker-end: url(#arrow2); fill: none; stroke-dasharray: 4 3; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <h1>RiscVFSM RISC-V Core</h1>
+    <p class="subtitle">Eine schulische Erklaerung: welche Bausteine im Prozessor stecken, welche Aufgabe sie haben und wie aus vielen kleinen Schritten eine laufende CPU wird.</p>
+    <p class="meta">Stand: 05.05.2026<br>Quellenbasis: lokale VHDL-Dateien in <code>RiscVTest.srcs/sources_1/new</code><br>Top-Pfad: <code>riscv_soc_boot</code> mit <code>riscv_core_memless</code></p>
+  </section>
+
+  <section class="pagebreak">
+    <h2>1. Die Idee in einem Satz</h2>
+    <p>Der Core ist ein kleiner RISC-V-Prozessor, der ein Programm Schritt fuer Schritt aus dem Instruktionsspeicher liest, die Befehle versteht, mit Registern und Rechenwerk ausfuehrt und bei Bedarf auf Speicher, Timer oder UART zugreift.</p>
+    <p>Er ist kein Pipeline-Prozessor, bei dem viele Befehle gleichzeitig in verschiedenen Stufen laufen. Stattdessen arbeitet er wie ein genauer Ablaufplan: holen, dekodieren, Operanden lesen, ausfuehren, eventuell Speicher benutzen und Ergebnis zurueckschreiben. Diese Ablaufsteuerung ist die FSM, also die Zustandsmaschine. Daher passt der Projektname <code>RiscVFSM</code> sehr gut.</p>
+    <div class="learning">
+      <b>Merksatz:</b> Die FSM ist der Taktgeber des Denkens. Sie entscheidet, welcher Baustein in welchem Zyklus gebraucht wird.
+    </div>
+
+    <div class="svgwrap">
+      <svg class="diagram" viewBox="0 0 980 400" role="img" aria-label="Uebersicht ueber den RISC-V Core">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#32506a"/></marker>
+          <marker id="arrow2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#9b5f17"/></marker>
+        </defs>
+        <rect class="block3" x="30" y="45" width="170" height="78"/><text x="115" y="78" text-anchor="middle" font-size="17">Programm laden</text><text x="115" y="101" text-anchor="middle" font-size="12">UART, SPI oder AXI</text>
+        <rect class="block2" x="265" y="45" width="170" height="78"/><text x="350" y="78" text-anchor="middle" font-size="17">Instruktionsspeicher</text><text x="350" y="101" text-anchor="middle" font-size="12">enthaelt die Befehle</text>
+        <rect class="block" x="510" y="38" width="215" height="92"/><text x="617" y="72" text-anchor="middle" font-size="19">CPU-Core</text><text x="617" y="97" text-anchor="middle" font-size="12">FSM, Decoder, Register, ALU</text>
+        <rect class="block2" x="790" y="45" width="155" height="78"/><text x="867" y="78" text-anchor="middle" font-size="17">Datenwelt</text><text x="867" y="101" text-anchor="middle" font-size="12">RAM, Timer, UART</text>
+        <rect class="block" x="230" y="235" width="130" height="64"/><text x="295" y="262" text-anchor="middle" font-size="15">Decoder</text><text x="295" y="282" text-anchor="middle" font-size="11">Was ist zu tun?</text>
+        <rect class="block" x="420" y="235" width="130" height="64"/><text x="485" y="262" text-anchor="middle" font-size="15">Registerfile</text><text x="485" y="282" text-anchor="middle" font-size="11">Werte merken</text>
+        <rect class="block" x="610" y="235" width="130" height="64"/><text x="675" y="262" text-anchor="middle" font-size="15">ALU / Branch</text><text x="675" y="282" text-anchor="middle" font-size="11">rechnen, vergleichen</text>
+        <path class="wire2" d="M200 84 L265 84"/>
+        <path class="wire" d="M435 84 L510 84"/>
+        <path class="wire" d="M725 84 L790 84"/>
+        <path class="wire" d="M790 108 C745 160,730 205,675 235"/>
+        <path class="wire" d="M617 130 C550 170,480 205,295 235"/>
+        <path class="wire" d="M360 267 L420 267"/>
+        <path class="wire" d="M550 267 L610 267"/>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. Was gehoert alles dazu?</h2>
+    <p>Man kann den Aufbau wie ein kleines Computersystem sehen. Innen sitzt der eigentliche Prozessor. Aussen herum liegen Speicher, Boot-Logik und einfache Ein-/Ausgabe. Die folgende Tabelle ist bewusst als Rollenbeschreibung formuliert, nicht als Datenblatt.</p>
+    <table>
+      <thead><tr><th>Baustein</th><th>Rolle im System</th><th>Wie er mit den anderen zusammenhaengt</th></tr></thead>
+      <tbody>
+        <tr><td><code>riscv_core_memless</code></td><td>Der eigentliche CPU-Kern. Er fuehrt Befehle aus und besitzt PC, FSM, Decoder-Anbindung, Register, ALU, Branch-, LSU- und CSR-Anbindung.</td><td>Er fragt Instruktionen aus IMEM ab und liest oder schreibt Daten ueber das DMEM/MMIO-Interface.</td></tr>
+        <tr><td><code>decoder</code></td><td>Der Uebersetzer. Er schaut auf die Bits der Instruktion und erkennt, ob es z. B. ein ADD, LW, Branch oder CSR-Befehl ist.</td><td>Seine Ausgaenge werden im Core gespeichert, damit die naechsten FSM-Zustaende stabile Steuersignale haben.</td></tr>
+        <tr><td><code>regfile</code></td><td>Das Kurzzeitgedaechtnis der CPU mit 32 Registern. <code>x0</code> ist immer Null.</td><td>Die ALU, Branch Unit und LSU bekommen ihre Operanden meistens aus diesen Registern.</td></tr>
+        <tr><td><code>alu</code></td><td>Das Rechenwerk. Es addiert, subtrahiert, verknuepft Bits, schiebt Bits und kann die unteren 32 Bit einer Multiplikation liefern.</td><td>Ihr Ergebnis geht entweder zurueck in ein Register oder dient als Adresse fuer Speicherzugriffe.</td></tr>
+        <tr><td><code>branch_unit</code></td><td>Der Entscheider fuer bedingte Spruenge. Sie vergleicht zwei Registerwerte.</td><td>Ihr Ergebnis bestimmt, ob der PC normal weiterlaeuft oder zu einer anderen Adresse springt.</td></tr>
+        <tr><td><code>load_store_unit</code></td><td>Der Adapter zwischen CPU-Werten und byteweise organisiertem Speicherzugriff.</td><td>Sie sorgt dafuer, dass Bytes, Halfwords und Words an der richtigen Stelle im 32-Bit-Wort landen.</td></tr>
+        <tr><td><code>csr_file</code></td><td>Der Verwaltungsbereich fuer Ausnahmen, Interrupts und Watchdog.</td><td>Wenn ein Trap oder Timer-Interrupt passiert, liefert er dem Core die naechste PC-Adresse.</td></tr>
+        <tr><td><code>imem_dp_ram</code> und <code>dmem</code></td><td>Instruktionsspeicher und Datenspeicher.</td><td>IMEM liefert Befehle, DMEM speichert normale Programmdaten. Beide koennen vor dem Start programmiert werden.</td></tr>
+        <tr><td><code>riscv_soc_boot</code></td><td>Die SoC-Schale um den Core.</td><td>Sie verbindet Bootloader, Speicher, Timer, UART, Reset und den CPU-Core zu einem lauffaehigen System.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="pagebreak">
+    <h2>3. Der Weg eines Befehls</h2>
+    <p>Ein RISC-V-Befehl ist fuer die Hardware zuerst nur ein 32-Bit-Muster. Damit daraus eine Aktion wird, wandert dieses Muster durch mehrere Stationen. Jede Station klaert eine Frage.</p>
+    <div class="svgwrap">
+      <svg class="diagram" viewBox="0 0 980 360" role="img" aria-label="Weg eines Befehls durch den Core">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#32506a"/></marker></defs>
+        <rect class="block2" x="25" y="120" width="125" height="70"/><text x="87" y="149" text-anchor="middle" font-size="15">Fetch</text><text x="87" y="170" text-anchor="middle" font-size="11">Befehl holen</text>
+        <rect class="block" x="195" y="120" width="125" height="70"/><text x="257" y="149" text-anchor="middle" font-size="15">Decode</text><text x="257" y="170" text-anchor="middle" font-size="11">Befehl verstehen</text>
+        <rect class="block2" x="365" y="120" width="125" height="70"/><text x="427" y="149" text-anchor="middle" font-size="15">Register lesen</text><text x="427" y="170" text-anchor="middle" font-size="11">Operanden holen</text>
+        <rect class="block" x="535" y="120" width="125" height="70"/><text x="597" y="149" text-anchor="middle" font-size="15">Execute</text><text x="597" y="170" text-anchor="middle" font-size="11">rechnen/entscheiden</text>
+        <rect class="block2" x="705" y="120" width="125" height="70"/><text x="767" y="149" text-anchor="middle" font-size="15">Memory</text><text x="767" y="170" text-anchor="middle" font-size="11">falls noetig</text>
+        <rect class="block" x="875" y="120" width="80" height="70"/><text x="915" y="149" text-anchor="middle" font-size="15">WB</text><text x="915" y="170" text-anchor="middle" font-size="11">speichern</text>
+        <path class="wire" d="M150 155 L195 155"/><path class="wire" d="M320 155 L365 155"/><path class="wire" d="M490 155 L535 155"/><path class="wire" d="M660 155 L705 155"/><path class="wire" d="M830 155 L875 155"/>
+        <text x="87" y="220" text-anchor="middle" font-size="12">Welche Adresse<br/>steht im PC?</text>
+        <text x="257" y="220" text-anchor="middle" font-size="12">Welche Operation<br/>ist codiert?</text>
+        <text x="427" y="220" text-anchor="middle" font-size="12">Welche Register<br/>werden gebraucht?</text>
+        <text x="597" y="220" text-anchor="middle" font-size="12">Was ist das<br/>Ergebnis?</text>
+        <text x="767" y="220" text-anchor="middle" font-size="12">Muss RAM oder<br/>MMIO benutzt werden?</text>
+        <text x="915" y="220" text-anchor="middle" font-size="12">Wohin kommt<br/>das Ergebnis?</text>
+      </svg>
+    </div>
+    <p>Wichtig ist: Nicht jeder Befehl benutzt alle Stationen gleich. Ein <code>ADD</code> braucht keinen Datenspeicher. Ein <code>SW</code> schreibt in den Speicher und hat keinen Register-Writeback. Ein Branch entscheidet nur, welcher PC als naechstes gilt.</p>
+  </section>
+
+  <section>
+    <h2>4. Die FSM als Ablaufplan</h2>
+    <p>Die Zustandsmaschine ist der Teil, der Ordnung in den Ablauf bringt. Sie sorgt dafuer, dass nicht alles gleichzeitig passiert. Erst wird eine Instruktion geholt, dann werden ihre Steuerinformationen festgehalten, danach werden Registerwerte benutzt und am Ende wird der PC passend weitergesetzt.</p>
+    <table>
+      <thead><tr><th>Phase</th><th>Schulische Erklaerung</th><th>Typische VHDL-Zustaende</th></tr></thead>
+      <tbody>
+        <tr><td>Start und Holen</td><td>Die CPU nimmt den aktuellen PC und fragt damit den Instruktionsspeicher. Das gelesene Wort wird als aktuelle Instruktion gespeichert.</td><td><code>ST_RESET</code>, <code>ST_FETCH</code>, <code>ST_FETCH_WAIT</code></td></tr>
+        <tr><td>Verstehen</td><td>Der Decoder zerlegt die Instruktion: Registeradressen, Immediate-Wert, ALU-Operation, Speicherart und Sprungart.</td><td><code>ST_DECODE</code></td></tr>
+        <tr><td>Vorbereiten</td><td>Das Registerfile liefert die benoetigten Registerwerte. Gleichzeitig ist nun klar, welcher Ausfuehrungspfad folgt.</td><td><code>ST_RF_WAIT</code></td></tr>
+        <tr><td>Ausfuehren</td><td>Je nach Befehl rechnet die ALU, prueft die Branch Unit, berechnet die LSU eine Adresse oder arbeitet die CSR-Logik.</td><td><code>ST_EXEC_ALU</code>, <code>ST_EXEC_BRANCH</code>, <code>ST_EXEC_LOAD_ADDR</code>, <code>ST_EXEC_STORE_ADDR</code>, <code>ST_EXEC_CSR</code></td></tr>
+        <tr><td>Abschliessen</td><td>Das Ergebnis wird in ein Register geschrieben, in den Speicher geschrieben oder der PC wird auf das Sprung-/Trap-Ziel gesetzt.</td><td><code>ST_MEM_READ</code>, <code>ST_MEM_WRITE</code>, <code>ST_WB</code>, <code>ST_TRAP</code>, <code>ST_MRET</code></td></tr>
+      </tbody>
+    </table>
+    <div class="note">Weil der Core mehrzyklisch ist, kann man ihn gut beobachten: <code>state_dbg_o</code> zeigt, in welchem Schritt die CPU gerade steht.</div>
+  </section>
+
+  <section class="pagebreak">
+    <h2>5. Warum Decoder, Registerfile und ALU zusammengehoeren</h2>
+    <p>Diese drei Bausteine bilden den normalen Rechenweg. Der Decoder sagt, welche Register gelesen werden und welche Operation gebraucht wird. Das Registerfile liefert die Zahlen. Die ALU fuehrt die Operation aus. Danach schreibt der Core das Ergebnis in das Zielregister zurueck.</p>
+    <div class="grid2">
+      <div class="box">
+        <h3>Beispiel: <code>ADD x3, x1, x2</code></h3>
+        <p>Der Decoder erkennt: lies <code>x1</code> und <code>x2</code>, addiere beide Werte und schreibe das Ergebnis nach <code>x3</code>. Das Registerfile liefert die beiden Eingaben. Die ALU addiert. Im Writeback-Zustand bekommt <code>x3</code> das Ergebnis.</p>
+      </div>
+      <div class="box">
+        <h3>Beispiel: <code>ADDI x3, x1, 5</code></h3>
+        <p>Hier kommt der zweite Wert nicht aus einem Register, sondern direkt aus der Instruktion. Der Decoder erzeugt dafuer den Immediate-Wert 5. Die ALU addiert <code>x1</code> und 5. Danach wird wieder nach <code>x3</code> geschrieben.</p>
+      </div>
+    </div>
+    <p>Das Muster ist also einfach: Der Decoder bereitet vor, das Registerfile liefert Werte, die ALU verarbeitet sie, und die FSM sorgt dafuer, dass die Schritte in der richtigen Reihenfolge passieren.</p>
+  </section>
+
+  <section>
+    <h2>6. Branches: wenn der PC eine Entscheidung treffen muss</h2>
+    <p>Normalerweise wird nach jedem Befehl der PC um 4 erhoeht, weil RISC-V-Instruktionen hier 32 Bit breit sind. Ein Branch kann diesen normalen Weg aendern. Dafuer vergleicht die <code>branch_unit</code> zwei Registerwerte.</p>
+    <p>Bei <code>BEQ</code> fragt sie: Sind beide Werte gleich? Bei <code>BLT</code> fragt sie: Ist der erste Wert kleiner als der zweite? Fuer manche Vergleiche werden die Werte als vorzeichenbehaftet betrachtet, fuer andere als unsigned. Das Ergebnis heisst im Core sinngemaess: Sprung nehmen oder nicht.</p>
+    <div class="learning">
+      <b>Zusammenhang:</b> Der Decoder erkennt die Branch-Art, das Registerfile liefert die zwei Vergleichswerte, die Branch Unit entscheidet, und die FSM schreibt danach entweder das Branch-Ziel oder <code>PC+4</code> in den PC.
+    </div>
+  </section>
+
+  <section class="pagebreak">
+    <h2>7. Speicherzugriffe: warum es eine LSU gibt</h2>
+    <p>Die CPU rechnet intern mit 32-Bit-Werten. Der Speicher kann aber auch einzelne Bytes oder Halfwords lesen und schreiben. Genau hier hilft die Load/Store Unit. Sie ist eine Art Uebersetzer zwischen "CPU moechte ein Byte/Halfword/Word" und "RAM ist in 32-Bit-Worten mit vier Byte-Lanes organisiert".</p>
+    <div class="svgwrap">
+      <svg class="diagram" viewBox="0 0 980 300" role="img" aria-label="Load Store Unit erklaert">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#32506a"/></marker></defs>
+        <rect class="block" x="35" y="45" width="170" height="70"/><text x="120" y="75" text-anchor="middle" font-size="15">Adresse</text><text x="120" y="96" text-anchor="middle" font-size="11">rs1 + Immediate</text>
+        <rect class="block" x="35" y="175" width="170" height="70"/><text x="120" y="205" text-anchor="middle" font-size="15">Store-Wert</text><text x="120" y="226" text-anchor="middle" font-size="11">kommt aus rs2</text>
+        <rect class="block2" x="300" y="85" width="220" height="120"/><text x="410" y="120" text-anchor="middle" font-size="17">Load/Store Unit</text><text x="410" y="145" text-anchor="middle" font-size="12">waehlt Byte-Lane</text><text x="410" y="166" text-anchor="middle" font-size="12">setzt Byte Enables</text><text x="410" y="187" text-anchor="middle" font-size="12">erweitert Load-Ergebnis</text>
+        <rect class="block2" x="635" y="105" width="160" height="85"/><text x="715" y="140" text-anchor="middle" font-size="16">DMEM</text><text x="715" y="161" text-anchor="middle" font-size="11">32-Bit-Worte</text>
+        <rect class="block" x="855" y="105" width="100" height="85"/><text x="905" y="140" text-anchor="middle" font-size="16">Register</text><text x="905" y="161" text-anchor="middle" font-size="11">bei Load</text>
+        <path class="wire" d="M205 80 C250 95,260 120,300 128"/><path class="wire" d="M205 210 C245 210,260 178,300 166"/><path class="wire" d="M520 138 L635 138"/><path class="wire" d="M635 171 L520 180"/><path class="wire" d="M795 148 L855 148"/>
+      </svg>
+    </div>
+    <p>Bei einem Store erzeugt die LSU die passenden Byte-Enables. Bei einem Load sucht sie die richtige Byte-Lane heraus und erweitert den Wert auf 32 Bit. Bei <code>LB</code> und <code>LH</code> wird mit Vorzeichen erweitert, bei <code>LBU</code> und <code>LHU</code> mit Nullen.</p>
+  </section>
+
+  <section>
+    <h2>8. CSR, Traps, Timer und Watchdog</h2>
+    <p>Nicht jeder Sprung im PC kommt aus einem normalen Branch. Manchmal passiert etwas Besonderes: ein illegaler Befehl, ein <code>ECALL</code>, ein Timer-Interrupt oder ein Ruecksprung aus einer Ausnahmebehandlung. Dafuer gibt es die CSR-Datei.</p>
+    <p>CSRs sind spezielle Steuerregister. Sie merken zum Beispiel, wo die CPU vor einer Ausnahme war (<code>mepc</code>), warum die Ausnahme passiert ist (<code>mcause</code>) und wohin bei einer Ausnahme gesprungen werden soll (<code>mtvec</code>). Der Timer kann ueber <code>mip</code> und <code>mie</code> einen Machine-Timer-Interrupt ausloesen. Der Watchdog kann einen Reset erzeugen, wenn er nicht rechtzeitig neu geladen wird.</p>
+    <div class="learning">
+      <b>Merksatz:</b> Normale Befehle veraendern Daten. Traps und Interrupts veraendern vor allem den Kontrollfluss und sichern den alten Zustand in CSRs.
+    </div>
+  </section>
+
+  <section class="pagebreak">
+    <h2>9. Die SoC-Schale: damit der Core wirklich laufen kann</h2>
+    <p>Ein CPU-Core allein reicht noch nicht, denn irgendwoher muss das Programm kommen und irgendwohin muessen Daten geschrieben werden. Diese Aufgabe uebernimmt <code>riscv_soc_boot</code>. Diese Komponente verbindet den Core mit Bootloadern, Speicher, Timer, UART und Reset-Logik.</p>
+    <div class="grid2">
+      <div class="box">
+        <h3>Bootpfade</h3>
+        <ul>
+          <li><span class="tag">UART</span> Ein Programm kann byteweise ueber die serielle Schnittstelle geladen werden.</li>
+          <li><span class="tag">SPI</span> Ein Programm kann aus einem externen Flash gelesen werden.</li>
+          <li><span class="tag">External</span> Eine aeussere Logik, z. B. AXI, kann Speicher direkt programmieren.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Warum Reset wichtig ist</h3>
+        <p>Die CPU darf erst starten, wenn ein gueltiges Programm im Instruktionsspeicher liegt. Deshalb haelt die SoC-Schale den Core im Reset, bis der Bootvorgang abgeschlossen ist oder ein externer Start erlaubt wurde.</p>
+      </div>
+    </div>
+    <h3>MMIO einfach gesagt</h3>
+    <p>MMIO bedeutet: Peripherie wird wie Speicher angesprochen. Wenn die CPU an eine normale DMEM-Adresse schreibt, landet der Wert im RAM. Wenn sie an <code>0x40002000</code> schreibt, wird stattdessen ein Byte ueber UART gesendet. Der Timer liegt in der Region <code>0x40001000</code> bis <code>0x40001FFF</code>.</p>
+  </section>
+
+  <section>
+    <h2>10. Wrapper und Integration</h2>
+    <p>Der Core ist so aufgebaut, dass er nicht nur in einer einzigen Umgebung funktioniert. Der Wishbone-Wrapper verbindet ihn mit einem Wishbone-System. Der AXI-Lite-Wrapper macht ihn fuer Vivado/Zynq-Blockdesigns leichter steuerbar, zum Beispiel zum Laden von IMEM/DMEM oder zum Auslesen von Statusinformationen.</p>
+    <p>Die verschiedenen Top-Level-Dateien sind also keine neuen CPUs. Sie sind verschiedene Gehaeuse um denselben Kern: einmal fuer Simulation, einmal fuer FPGA-Boards, einmal fuer externe Busintegration.</p>
+  </section>
+
+  <section>
+    <h2>11. Gesamtbild</h2>
+    <p>Wenn man den Core als Ganzes betrachtet, entsteht ein klares Zusammenspiel: Der PC zeigt auf den naechsten Befehl. IMEM liefert diesen Befehl. Der Decoder macht daraus Steuersignale. Das Registerfile liefert Werte. ALU, Branch Unit, LSU oder CSR-Logik erledigen die eigentliche Aufgabe. Die FSM fuehrt alle Schritte in der passenden Reihenfolge aus. Am Ende wird entweder ein Register, der Speicher oder der PC aktualisiert.</p>
+    <p>Dadurch ist der RiscVFSM-Core fuer ein Lehr- und Bring-up-Projekt gut geeignet: Die Bausteine sind getrennt genug, um sie einzeln zu verstehen, aber eng genug verbunden, um zu sehen, wie daraus ein echter Prozessor wird.</p>
+    <p class="small">Hinweis: Diese Dokumentation beschreibt den lokalen Stand der Dateien unter <code>RiscVTest.srcs/sources_1/new</code>. Generierte Vivado/IP-Shared-Kopien wurden nicht als primaere Quelle verwendet.</p>
+  </section>
+</body>
+</html>

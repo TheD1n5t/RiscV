@@ -1,0 +1,22 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../RiscVTest.srcs/sources_1/new/alu.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/branch_unit.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/cpu_pkg.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/decoder.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/regfile.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/csr_file.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/load_store_unit.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/cpu.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/dmem.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/imem_dp_ram.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/uart_rx.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/uart_boot_loader.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/uart_tx.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/spi_flash_boot.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/simple_timer.vhd" \
+"../../../../RiscVTest.srcs/sources_1/new/riscv_soc_boot.vhd" \
+"../../../../RiscVTest.srcs/sim_1/new/tb_soc_uart_boot.vhd" \
+
+# Do not sort compile order
+nosort

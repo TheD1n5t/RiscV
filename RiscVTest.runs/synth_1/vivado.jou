@@ -1,24 +1,24 @@
 #-----------------------------------------------------------
 # Vivado v2024.1 (64-bit)
-# SW Build 5076996 on Wed May 22 18:36:09 MDT 2024
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Wed Mar 11 15:03:21 2026
-# Process ID: 1110032
-# Current directory: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.runs/synth_1
-# Command line: vivado -log riscv_soc_boot.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source riscv_soc_boot.tcl
-# Log file: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.runs/synth_1/riscv_soc_boot.vds
-# Journal file: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.runs/synth_1/vivado.jou
-# Running On        :krischan-ledwig-Dell-Pro-Tower-QCT1250
-# Platform          :Ubuntu
-# Operating System  :Ubuntu 24.04.3 LTS
-# Processor Detail  :Intel(R) Core(TM) Ultra 7 265
-# CPU Frequency     :1749.959 MHz
-# CPU Physical cores:20
-# CPU Logical cores :20
-# Host memory       :33073 MB
-# Swap memory       :8589 MB
-# Total Virtual     :41663 MB
-# Available Virtual :28138 MB
+# Start of session at: Thu Apr  2 16:39:48 2026
+# Process ID: 3800
+# Current directory: D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1
+# Command line: vivado.exe -log riscv_soc_boot_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source riscv_soc_boot_top.tcl
+# Log file: D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1/riscv_soc_boot_top.vds
+# Journal file: D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1\vivado.jou
+# Running On        :DESKTOP-U0V267S
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26200
+# Processor Detail  :AMD Ryzen 7 3700X 8-Core Processor             
+# CPU Frequency     :3600 MHz
+# CPU Physical cores:8
+# CPU Logical cores :16
+# Host memory       :34282 MB
+# Swap memory       :2952 MB
+# Total Virtual     :37235 MB
+# Available Virtual :12722 MB
 #-----------------------------------------------------------
-source riscv_soc_boot.tcl -notrace
+source riscv_soc_boot_top.tcl -notrace

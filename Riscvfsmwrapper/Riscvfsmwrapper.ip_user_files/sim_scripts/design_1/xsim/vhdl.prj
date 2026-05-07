@@ -1,0 +1,24 @@
+vhdl xil_defaultlib  \
+"../../../bd/design_1/ip/design_1_rst_ps8_0_99M_0/sim/design_1_rst_ps8_0_99M_0.vhd" \
+"../../../bd/design_1/ipshared/819f/src/alu.vhd" \
+"../../../bd/design_1/ipshared/819f/src/branch_unit.vhd" \
+"../../../bd/design_1/ipshared/819f/src/cpu_pkg.vhd" \
+"../../../bd/design_1/ipshared/819f/src/decoder.vhd" \
+"../../../bd/design_1/ipshared/819f/src/regfile.vhd" \
+"../../../bd/design_1/ipshared/819f/src/csr_file.vhd" \
+"../../../bd/design_1/ipshared/819f/src/load_store_unit.vhd" \
+"../../../bd/design_1/ipshared/819f/src/cpu.vhd" \
+"../../../bd/design_1/ipshared/819f/src/dmem.vhd" \
+"../../../bd/design_1/ipshared/819f/src/fake_spi_flash.vhd" \
+"../../../bd/design_1/ipshared/819f/src/imem_dp_ram.vhd" \
+"../../../bd/design_1/ipshared/819f/src/uart_rx.vhd" \
+"../../../bd/design_1/ipshared/819f/src/uart_boot_loader.vhd" \
+"../../../bd/design_1/ipshared/819f/src/uart_tx.vhd" \
+"../../../bd/design_1/ipshared/819f/src/spi_flash_boot.vhd" \
+"../../../bd/design_1/ipshared/819f/src/simple_timer.vhd" \
+"../../../bd/design_1/ipshared/819f/src/riscv_soc_boot.vhd" \
+"../../../bd/design_1/ipshared/819f/src/riscv_soc_axi_wrapper.vhd" \
+"../../../bd/design_1/ip/design_1_riscv_soc_axi_wrapper_0_1/sim/design_1_riscv_soc_axi_wrapper_0_1.vhd" \
+
+# Do not sort compile order
+nosort

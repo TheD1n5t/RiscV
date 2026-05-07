@@ -1,0 +1,697 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Thu Apr  2 16:39:48 2026
+# Process ID: 3800
+# Current directory: D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1
+# Command line: vivado.exe -log riscv_soc_boot_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source riscv_soc_boot_top.tcl
+# Log file: D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1/riscv_soc_boot_top.vds
+# Journal file: D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1\vivado.jou
+# Running On        :DESKTOP-U0V267S
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26200
+# Processor Detail  :AMD Ryzen 7 3700X 8-Core Processor             
+# CPU Frequency     :3600 MHz
+# CPU Physical cores:8
+# CPU Logical cores :16
+# Host memory       :34282 MB
+# Swap memory       :2952 MB
+# Total Virtual     :37235 MB
+# Available Virtual :12722 MB
+#-----------------------------------------------------------
+source riscv_soc_boot_top.tcl -notrace
+create_project: Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 531.391 ; gain = 199.129
+Command: read_checkpoint -auto_incremental -incremental D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/utils_1/imports/synth_1/riscv_core.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/utils_1/imports/synth_1/riscv_core.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top riscv_soc_boot_top -part xczu3eg-sbva484-1-i
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu3eg'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu3eg'
+INFO: [Device 21-403] Loading part xczu3eg-sbva484-1-i
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 7948
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1866.508 ; gain = 393.773
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'riscv_soc_boot_top' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/riscv_soc_boot_top.vhd:15]
+INFO: [Synth 8-638] synthesizing module 'riscv_soc_boot' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/riscv_soc_boot.vhd:52]
+	Parameter CLK_FREQ_HZ bound to: 50000000 - type: integer 
+	Parameter BAUD bound to: 115200 - type: integer 
+	Parameter IMEM_WORDS bound to: 4096 - type: integer 
+INFO: [Synth 8-638] synthesizing module 'uart_rx' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/uart_rx.vhd:20]
+	Parameter CLK_FREQ_HZ bound to: 50000000 - type: integer 
+	Parameter BAUD bound to: 115200 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'uart_rx' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/uart_rx.vhd:20]
+INFO: [Synth 8-638] synthesizing module 'uart_tx' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/uart_tx.vhd:22]
+	Parameter CLK_FREQ_HZ bound to: 50000000 - type: integer 
+	Parameter BAUD bound to: 115200 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'uart_tx' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/uart_tx.vhd:22]
+INFO: [Synth 8-638] synthesizing module 'imem_dp_ram' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/imem_dp_ram.vhd:29]
+	Parameter WORDS bound to: 4096 - type: integer 
+	Parameter G_FAULT_INJECT bound to: 0 - type: bool 
+INFO: [Synth 8-256] done synthesizing module 'imem_dp_ram' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/imem_dp_ram.vhd:29]
+INFO: [Synth 8-638] synthesizing module 'dmem' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/dmem.vhd:28]
+	Parameter G_FAULT_INJECT bound to: 0 - type: bool 
+INFO: [Synth 8-256] done synthesizing module 'dmem' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/dmem.vhd:28]
+INFO: [Synth 8-638] synthesizing module 'simple_timer' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/simple_timer.vhd:20]
+INFO: [Synth 8-226] default block is never used [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/simple_timer.vhd:65]
+INFO: [Synth 8-256] done synthesizing module 'simple_timer' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/simple_timer.vhd:20]
+INFO: [Synth 8-638] synthesizing module 'riscv_core_memless' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd:55]
+INFO: [Synth 8-226] default block is never used [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd:178]
+INFO: [Synth 8-638] synthesizing module 'decoder' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/decoder.vhd:44]
+INFO: [Synth 8-226] default block is never used [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/decoder.vhd:115]
+INFO: [Synth 8-226] default block is never used [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/decoder.vhd:199]
+INFO: [Synth 8-256] done synthesizing module 'decoder' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/decoder.vhd:44]
+INFO: [Synth 8-638] synthesizing module 'regfile' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:29]
+	Parameter G_FAULT_INJECT bound to: 1 - type: bool 
+	Parameter G_SELF_HEAL bound to: 1 - type: bool 
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[0]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[1]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[2]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[3]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[4]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[5]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[6]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[7]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[8]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[9]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[10]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[11]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[12]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[13]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[14]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[15]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[16]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[17]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[18]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[19]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[20]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[21]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[22]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[23]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[24]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[25]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[26]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[27]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[28]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[29]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[30]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_a[31]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:33]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[0]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[1]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[2]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[3]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[4]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[5]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[6]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[7]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[8]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[9]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[10]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[11]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[12]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[13]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[14]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[15]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[16]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[17]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[18]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[19]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[20]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[21]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[22]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[23]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[24]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[25]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[26]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[27]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[28]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[29]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[30]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_b[31]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:34]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[0]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[1]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[2]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[3]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[4]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[5]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[6]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[7]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[8]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[9]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[10]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[11]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[12]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[13]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[14]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[15]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[16]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[17]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[18]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[19]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[20]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[21]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[22]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[23]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[24]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[25]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[26]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[27]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[28]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[29]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[30]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'regfile_c[31]' is not inferred as ram due to incorrect usage [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:35]
+INFO: [Synth 8-256] done synthesizing module 'regfile' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:29]
+INFO: [Synth 8-638] synthesizing module 'csr_file' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/csr_file.vhd:42]
+INFO: [Synth 8-256] done synthesizing module 'csr_file' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/csr_file.vhd:42]
+INFO: [Synth 8-638] synthesizing module 'alu' [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/alu.vhd:15]
+INFO: [Synth 8-256] done synthesizing module 'alu' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/alu.vhd:15]
+INFO: [Synth 8-226] default block is never used [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd:961]
+INFO: [Synth 8-256] done synthesizing module 'riscv_core_memless' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd:55]
+INFO: [Synth 8-256] done synthesizing module 'riscv_soc_boot' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/riscv_soc_boot.vhd:52]
+INFO: [Synth 8-256] done synthesizing module 'riscv_soc_boot_top' (0#1) [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/riscv_soc_boot_top.vhd:15]
+WARNING: [Synth 8-3936] Found unconnected internal register 'wr_addr_mux_reg' and it is trimmed from '32' to '12' bits. [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/dmem.vhd:156]
+WARNING: [Synth 8-6014] Unused sequential element regfile_b_reg[0] was removed.  [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:74]
+WARNING: [Synth 8-6014] Unused sequential element regfile_c_reg[0] was removed.  [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/regfile.vhd:75]
+WARNING: [Synth 8-6014] Unused sequential element acc_start_pulse_reg was removed.  [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd:915]
+WARNING: [Synth 8-7129] Port addr[1] in module simple_timer is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[0] in module simple_timer is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[31] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[30] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[29] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[28] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[27] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[26] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[25] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[24] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[23] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[22] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[21] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[20] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[19] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[18] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[17] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[16] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[15] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[14] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[13] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[12] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[38] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[37] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[36] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[35] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[34] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[33] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[32] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[31] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[30] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[29] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[28] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[27] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[26] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[25] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[24] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[23] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[22] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[21] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[20] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[19] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[18] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[17] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[16] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[15] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[14] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[13] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[12] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[11] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[10] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[9] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[8] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[7] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[6] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[5] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[4] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[3] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[2] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[1] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_mask_i[0] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[9] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[8] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[7] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[6] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[5] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[4] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[3] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[2] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[1] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_addr_i[0] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_dmem_strobe_i in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[31] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[30] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[29] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[28] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[27] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[26] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[25] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[24] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[23] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[22] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[21] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[20] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[19] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[18] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[17] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[16] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[15] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[14] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[13] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port prog_addr[12] in module dmem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[1] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[0] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_imem_mask_i[38] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_imem_mask_i[37] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_imem_mask_i[36] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_imem_mask_i[35] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_imem_mask_i[34] in module imem_dp_ram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fi_imem_mask_i[33] in module imem_dp_ram is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2060.855 ; gain = 588.121
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2060.855 ; gain = 588.121
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2060.855 ; gain = 588.121
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.109 . Memory (MB): peak = 2060.855 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/constrs_1/new/cpu.xdc]
+Finished Parsing XDC File [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/constrs_1/new/cpu.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/constrs_1/new/cpu.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/riscv_soc_boot_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/riscv_soc_boot_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 2164.734 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.037 . Memory (MB): peak = 2164.734 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu3eg-sbva484-1-i
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Preparing Guide Design
+---------------------------------------------------------------------------------
+CRITICAL WARNING: [Synth 8-6895] The reference checkpoint D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.srcs/utils_1/imports/synth_1/riscv_core.dcp is not suitable for use with incremental synthesis for this design. Please regenerate the checkpoint for this design with -incremental_synth switch in the same Vivado session that synth_design has been run. Synthesis will continue with the default flow
+---------------------------------------------------------------------------------
+Finished Doing Graph Differ : Time (s): cpu = 00:00:22 ; elapsed = 00:00:23 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Preparing Guide Design : Time (s): cpu = 00:00:22 ; elapsed = 00:00:23 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'st_reg' in module 'uart_rx'
+INFO: [Synth 8-802] inferred FSM for state register 'st_reg' in module 'uart_tx'
+INFO: [Synth 8-802] inferred FSM for state register 'bl_state_reg' in module 'riscv_soc_boot'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |                               00 |                               00
+                   start |                               01 |                               01
+               data_bits |                               10 |                               10
+                    stop |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'st_reg' using encoding 'sequential' in module 'uart_rx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |                               00 |                               00
+               start_bit |                               01 |                               01
+               data_bits |                               10 |                               10
+                stop_bit |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'st_reg' using encoding 'sequential' in module 'uart_tx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 wait_55 |                    0000000000001 |                             0000
+                 wait_aa |                    0000000000010 |                             0001
+               imem_len0 |                    0000000000100 |                             0010
+               imem_len1 |                    0000000001000 |                             0011
+               imem_len2 |                    0000000010000 |                             0100
+               imem_len3 |                    0000000100000 |                             0101
+               dmem_len0 |                    0000001000000 |                             0110
+               dmem_len1 |                    0000010000000 |                             0111
+               dmem_len2 |                    0000100000000 |                             1000
+               dmem_len3 |                    0001000000000 |                             1001
+               imem_data |                    0010000000000 |                             1010
+               dmem_data |                    0100000000000 |                             1011
+                    done |                    1000000000000 |                             1100
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'bl_state_reg' using encoding 'one-hot' in module 'riscv_soc_boot'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+
+
+Incremental Synthesis Report Summary:
+
+1. Incremental synthesis run: no
+
+   Reason for not running incremental synthesis : 
+
+
+INFO: [Synth 8-7130] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 9     
+	   3 Input   32 Bit       Adders := 1     
+	   2 Input    9 Bit       Adders := 2     
+	   2 Input    7 Bit       Adders := 2     
+	   2 Input    3 Bit       Adders := 3     
+	   2 Input    2 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 7     
+	   4 Input     22 Bit         XORs := 1     
+	   2 Input      6 Bit         XORs := 2     
+	   2 Input      4 Bit         XORs := 3     
+	   2 Input      1 Bit         XORs := 10    
+	  17 Input      1 Bit         XORs := 2     
+	  16 Input      1 Bit         XORs := 6     
+	   8 Input      1 Bit         XORs := 8     
+	   6 Input      1 Bit         XORs := 2     
+	  38 Input      1 Bit         XORs := 2     
+	   3 Input      1 Bit         XORs := 4     
+	   4 Input      1 Bit         XORs := 6     
+	   7 Input      1 Bit         XORs := 4     
+	  18 Input      1 Bit         XORs := 2     
+	  39 Input      1 Bit         XORs := 2     
+	   5 Input      1 Bit         XORs := 1     
++---Registers : 
+	               89 Bit    Registers := 3     
+	               64 Bit    Registers := 1     
+	               39 Bit    Registers := 2     
+	               32 Bit    Registers := 136   
+	                9 Bit    Registers := 2     
+	                8 Bit    Registers := 4     
+	                5 Bit    Registers := 1     
+	                4 Bit    Registers := 3     
+	                3 Bit    Registers := 3     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 19    
++---Multipliers : 
+	              32x32  Multipliers := 1     
++---RAMs : 
+	             156K Bit	(4096 X 39 bit)          RAMs := 1     
+	              39K Bit	(1024 X 39 bit)          RAMs := 1     
++---Muxes : 
+	  16 Input   89 Bit        Muxes := 3     
+	   4 Input   64 Bit        Muxes := 1     
+	   2 Input   38 Bit        Muxes := 2     
+	   2 Input   32 Bit        Muxes := 69    
+	   4 Input   32 Bit        Muxes := 15    
+	  16 Input   32 Bit        Muxes := 6     
+	  13 Input   32 Bit        Muxes := 7     
+	   2 Input   16 Bit        Muxes := 1     
+	  13 Input   13 Bit        Muxes := 1     
+	   2 Input   13 Bit        Muxes := 4     
+	   2 Input   12 Bit        Muxes := 1     
+	   4 Input    9 Bit        Muxes := 2     
+	   4 Input    8 Bit        Muxes := 3     
+	  16 Input    5 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 6     
+	   4 Input    4 Bit        Muxes := 1     
+	   8 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 2     
+	   4 Input    3 Bit        Muxes := 2     
+	   3 Input    3 Bit        Muxes := 1     
+	   7 Input    3 Bit        Muxes := 1     
+	   4 Input    2 Bit        Muxes := 3     
+	   2 Input    2 Bit        Muxes := 4     
+	   6 Input    2 Bit        Muxes := 1     
+	   8 Input    2 Bit        Muxes := 1     
+	  13 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 568   
+	   4 Input    1 Bit        Muxes := 104   
+	   3 Input    1 Bit        Muxes := 2     
+	   8 Input    1 Bit        Muxes := 16    
+	   6 Input    1 Bit        Muxes := 3     
+	   7 Input    1 Bit        Muxes := 2     
+	  16 Input    1 Bit        Muxes := 17    
+	  13 Input    1 Bit        Muxes := 10    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 360 (col length:72)
+BRAMs: 432 (col length: RAMB18 72 RAMB36 36)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+DSP Report: Generating DSP tmp0, operation Mode is: A*B.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: Generating DSP tmp0, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: Generating DSP tmp0, operation Mode is: A*B.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: Generating DSP tmp0, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+DSP Report: operator tmp0 is absorbed into DSP tmp0.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:19 ; elapsed = 00:01:20 . Memory (MB): peak = 2164.734 ; gain = 692.000
+---------------------------------------------------------------------------------
+ Sort Area is  tmp0_0 : 0 0 : 3101 5879 : Used 1 time 0
+ Sort Area is  tmp0_0 : 0 1 : 2778 5879 : Used 1 time 0
+ Sort Area is  tmp0_3 : 0 0 : 2759 5418 : Used 1 time 0
+ Sort Area is  tmp0_3 : 0 1 : 2659 5418 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Preliminary Mapping Report (see note below)
++-------------------+----------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+-----------------+
+|Module Name        | RTL Object           | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | Cascade Heights | 
++-------------------+----------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+-----------------+
+|riscv_soc_boot_top | u_soc/u_imem/ram_reg | 4 K x 39(READ_FIRST)   | W |   | 4 K x 39(WRITE_FIRST)  |   | R | Port A and B     | 1      | 4      | 4,1             | 
+|riscv_soc_boot_top | u_soc/u_dmem/ram_reg | 1 K x 39(READ_FIRST)   | W |   | 1 K x 39(WRITE_FIRST)  |   | R | Port A and B     | 1      | 1      | 1,1             | 
++-------------------+----------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+-----------------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping    | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|alu         | A*B            | 18     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|alu         | (PCIN>>17)+A*B | 16     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|alu         | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|alu         | (PCIN>>17)+A*B | 18     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:31 ; elapsed = 00:01:33 . Memory (MB): peak = 2559.512 ; gain = 1086.777
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5556] The block RAM "riscv_soc_boot_top/u_soc/u_imem/ram_reg" may be mapped as a cascade chain, because it is not timing critical.
+INFO: [Synth 8-5556] The block RAM "riscv_soc_boot_top/u_soc/u_dmem/ram_reg" may be mapped as a cascade chain, because it is not timing critical.
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:01:41 ; elapsed = 00:01:43 . Memory (MB): peak = 2688.535 ; gain = 1215.801
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++-------------------+----------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+-----------------+
+|Module Name        | RTL Object           | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | Cascade Heights | 
++-------------------+----------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+-----------------+
+|riscv_soc_boot_top | u_soc/u_imem/ram_reg | 4 K x 39(READ_FIRST)   | W |   | 4 K x 39(WRITE_FIRST)  |   | R | Port A and B     | 1      | 4      | 4,1             | 
+|riscv_soc_boot_top | u_soc/u_dmem/ram_reg | 1 K x 39(READ_FIRST)   | W |   | 1 K x 39(WRITE_FIRST)  |   | R | Port A and B     | 1      | 1      | 1,1             | 
++-------------------+----------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+-----------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+INFO: [Synth 8-7052] The timing for the instance u_soc/u_imem/ram_reg_bram_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance u_soc/u_imem/ram_reg_bram_4 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance u_soc/u_dmem/ram_reg_bram_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance u_soc/u_dmem/ram_reg_bram_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:43 ; elapsed = 00:01:46 . Memory (MB): peak = 2755.188 ; gain = 1282.453
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:47 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:47 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:48 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:48 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:48 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:48 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++------------+--------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping  | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+--------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|alu         | A*B          | 17     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|alu         | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|alu         | PCIN>>17+A*B | 17     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++------------+--------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+----------------+------+
+|      |Cell            |Count |
++------+----------------+------+
+|1     |BUFG            |     1|
+|2     |CARRY8          |   101|
+|3     |DSP_ALU         |     3|
+|4     |DSP_A_B_DATA    |     3|
+|5     |DSP_C_DATA      |     3|
+|6     |DSP_MULTIPLIER  |     3|
+|7     |DSP_M_DATA      |     3|
+|8     |DSP_OUTPUT      |     3|
+|9     |DSP_PREADD      |     3|
+|10    |DSP_PREADD_DATA |     3|
+|11    |LUT1            |    43|
+|12    |LUT2            |   149|
+|13    |LUT3            |   302|
+|14    |LUT4            |   526|
+|15    |LUT5            |   863|
+|16    |LUT6            |  1821|
+|17    |MUXF7           |   260|
+|18    |MUXF8           |    64|
+|19    |RAMB18E2        |     2|
+|21    |RAMB36E2        |     5|
+|25    |FDRE            |  2843|
+|26    |FDSE            |    26|
+|27    |IBUF            |     3|
+|28    |OBUF            |     2|
++------+----------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:48 ; elapsed = 00:01:50 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 1 critical warnings and 147 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:33 ; elapsed = 00:01:43 . Memory (MB): peak = 2768.875 ; gain = 1192.262
+Synthesis Optimization Complete : Time (s): cpu = 00:01:49 ; elapsed = 00:01:51 . Memory (MB): peak = 2768.875 ; gain = 1296.141
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.048 . Memory (MB): peak = 2768.875 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 432 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 2768.875 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 7 instances were transformed.
+  BUFG => BUFGCE: 1 instance 
+  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 3 instances
+  IBUF => IBUF (IBUFCTRL, INBUF): 3 instances
+
+Synth Design complete | Checksum: db75bd5b
+INFO: [Common 17-83] Releasing license: Synthesis
+61 Infos, 201 Warnings, 1 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:58 ; elapsed = 00:02:01 . Memory (MB): peak = 2768.875 ; gain = 2232.707
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 2768.875 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'D:/Documents/FAU/NanoSat/RiscVFSM/RiscVTest.runs/synth_1/riscv_soc_boot_top.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file riscv_soc_boot_top_utilization_synth.rpt -pb riscv_soc_boot_top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Apr  2 16:42:00 2026...

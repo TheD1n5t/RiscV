@@ -1,7 +1,0 @@
-Running: xsim.dir/tb_riscv_soc_system_behav/xsimk -simmode gui -wdb tb_riscv_soc_system_behav.wdb -simrunnum 0 -socket 50449
-Design successfully loaded
-Design Loading Memory Usage: 21768 KB (Peak: 21776 KB)
-Design Loading CPU Usage: 20 ms
-Simulation completed
-Simulation Memory Usage: 112420 KB (Peak: 161036 KB)
-Simulation CPU Usage: 90 ms
