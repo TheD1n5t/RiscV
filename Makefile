@@ -25,6 +25,7 @@ OBJCOPY = $(RISCV_PREFIX)-objcopy
 OBJDUMP = $(RISCV_PREFIX)-objdump
 
 CFLAGS  = -march=rv32i -mabi=ilp32 -nostdlib -ffreestanding -Os -msmall-data-limit=0
+ASMFLAGS = -march=rv32im -mabi=ilp32 -nostdlib -nostartfiles -Wl,--no-relax
 LDFLAGS = -T link.ld -nostdlib
 
 # optional if not in PATH
@@ -52,7 +53,7 @@ CCF = $(TOP).ccf
 BITFILE = $(TOP).bit
 ASCFILE = $(TOP).txt
 
-.PHONY: all clean synth impl bitstream jtag info sw
+.PHONY: all clean synth impl bitstream jtag info sw asm
 
 all: clean synth impl bitstream
 
@@ -94,8 +95,15 @@ jtag:
 # make sw PROG=hello_uart
 sw: $(PROG).boot.bin
 
+# Simple assembly-only target:
+# make asm PROG=smoke
+asm: $(PROG).boot.bin
+
 %.elf: %.c uart.c print.c start.S link.ld
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ start.S uart.c print.c $<
+
+%.elf: %.S link.ld
+	$(CC) $(ASMFLAGS) $(LDFLAGS) -o $@ $<
 
 %.lst: %.elf
 	$(OBJDUMP) -d $< > $@

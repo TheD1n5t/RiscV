@@ -38,8 +38,8 @@ begin
       else
         cnt <= cnt + 1;
 
-        -- simple compare: pulse when equal
-        if cnt = cmp then
+        -- Keep the interrupt asserted once the compare value is reached.
+        if cnt >= cmp and cmp /= 0 then
           irq_reg <= '1';
         else
           irq_reg <= '0';
@@ -47,9 +47,9 @@ begin
 
         if we = '1' then
           case addr(3 downto 2) is
-            when "00" =>
+            when "10" =>
               cmp(31 downto 0)  <= unsigned(wdata);
-            when "01" =>
+            when "11" =>
               cmp(63 downto 32) <= unsigned(wdata);
             when others =>
               null;
