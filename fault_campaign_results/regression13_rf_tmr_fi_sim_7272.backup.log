@@ -1,0 +1,96 @@
+#-----------------------------------------------------------
+# xsim v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Thu May  7 15:11:06 2026
+# Process ID: 7272
+# Current directory: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM
+# Command line: xsim.exe -log D:\Documents\FAU\NanoSat\riscv_radhart_coll\RiscVFSM\fault_campaign_results\regression13_rf_tmr_fi_sim.log -mode tcl -source {xsim.dir/tb_fault_campaign_regression13_rf_tmr_fi/xsim_script.tcl}
+# Log file: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/fault_campaign_results/regression13_rf_tmr_fi_sim.log
+# Journal file: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM\xsim.jou
+# Running On        :DESKTOP-U0V267S
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26200
+# Processor Detail  :AMD Ryzen 7 3700X 8-Core Processor             
+# CPU Frequency     :3600 MHz
+# CPU Physical cores:8
+# CPU Logical cores :16
+# Host memory       :34282 MB
+# Swap memory       :7247 MB
+# Total Virtual     :41530 MB
+# Available Virtual :19264 MB
+#-----------------------------------------------------------
+source xsim.dir/tb_fault_campaign_regression13_rf_tmr_fi/xsim_script.tcl
+# xsim {tb_fault_campaign_regression13_rf_tmr_fi} -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+Note: FAULT CAMPAIGN: payload words=86 expected stores=13 deterministic=6 random=3
+Time: 0 ps  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: FAULT CAMPAIGN CONFIG: G_PC_TMR=true G_STATE_TMR=true G_RF_TMR=true G_RF_SELF_HEAL=false G_IMEM_ECC=false G_DMEM_ECC=false G_FAULT_INJECT=true
+Time: 0 ps  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 0 domain=REF      inject_cycle=-1
+Time: 7050 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 0 outcome=MASKED stores=13
+Time: 12650 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 1 domain=PC       inject_cycle=35
+Time: 19710 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 20470 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 1 outcome=CORRECTED stores=13
+Time: 25310 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 2 domain=STATE    inject_cycle=35
+Time: 32370 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: STATE TMR ERROR seen in core
+Time: 33130 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 2 outcome=CORRECTED stores=13
+Time: 37970 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 3 domain=RF       inject_cycle=45
+Time: 45030 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 46010 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 46030 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 46050 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 46070 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 46090 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 46110 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 3 outcome=CORRECTED stores=13
+Time: 50630 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 4 domain=DMEM     inject_cycle=30
+Time: 57690 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 4 outcome=MASKED stores=13
+Time: 63290 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 5 domain=IMEM     inject_cycle=1
+Time: 70350 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 5 outcome=MASKED stores=13
+Time: 75950 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 6 domain=IMEM2    inject_cycle=1
+Time: 83010 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 6 outcome=MASKED stores=13
+Time: 88610 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 7 domain=PC-RND   inject_cycle=64
+Time: 95670 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 97010 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 7 outcome=CORRECTED stores=13
+Time: 101270 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 8 domain=PC-RND   inject_cycle=121
+Time: 108330 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 110810 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 8 outcome=CORRECTED stores=13
+Time: 113930 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 9 domain=IM-RND   inject_cycle=41
+Time: 120990 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 9 outcome=MASKED stores=13
+Time: 126590 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: FAULT CAMPAIGN SUMMARY: total=10 injected=9 masked=5 corrected=5 uncorrectable=0 failures=0 timeouts=0
+Time: 126590 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+$finish called at time : 126590 ns : File "D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd" Line 695
+exit
+INFO: [Common 17-206] Exiting xsim at Thu May  7 15:11:08 2026...

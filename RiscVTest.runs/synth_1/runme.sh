@@ -7,10 +7,14 @@
 # Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 # 
 
+echo "This script was generated under a different operating system."
+echo "Please update the PATH and LD_LIBRARY_PATH variables below, before executing this script"
+exit
+
 if [ -z "$PATH" ]; then
-  PATH=/home/krischan-ledwig/Documents/Tools/Xilinx/Vitis/2024.1/bin:/home/krischan-ledwig/Documents/Tools/Xilinx/Vivado/2024.1/ids_lite/ISE/bin/lin64:/home/krischan-ledwig/Documents/Tools/Xilinx/Vivado/2024.1/bin
+  PATH=C:/Xilinx/Vivado/2024.1/ids_lite/ISE/bin/nt64;C:/Xilinx/Vivado/2024.1/ids_lite/ISE/lib/nt64:C:/Xilinx/Vivado/2024.1/bin
 else
-  PATH=/home/krischan-ledwig/Documents/Tools/Xilinx/Vitis/2024.1/bin:/home/krischan-ledwig/Documents/Tools/Xilinx/Vivado/2024.1/ids_lite/ISE/bin/lin64:/home/krischan-ledwig/Documents/Tools/Xilinx/Vivado/2024.1/bin:$PATH
+  PATH=C:/Xilinx/Vivado/2024.1/ids_lite/ISE/bin/nt64;C:/Xilinx/Vivado/2024.1/ids_lite/ISE/lib/nt64:C:/Xilinx/Vivado/2024.1/bin:$PATH
 fi
 export PATH
 
@@ -21,7 +25,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='/home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.runs/synth_1'
+HD_PWD='D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -37,4 +41,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log riscv_soc_boot.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source riscv_soc_boot.tcl
+EAStep vivado -log riscv_soc_boot_top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source riscv_soc_boot_top.tcl

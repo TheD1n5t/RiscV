@@ -1,0 +1,19 @@
+vhdl xil_defaultlib  \
+"../../../bd/design_1/ip/design_1_rst_ps8_0_99M_0/sim/design_1_rst_ps8_0_99M_0.vhd" \
+"../../../bd/design_1/ipshared/0343/src/alu.vhd" \
+"../../../bd/design_1/ipshared/0343/src/fault_injector.vhd" \
+"../../../bd/design_1/ipshared/0343/src/decoder.vhd" \
+"../../../bd/design_1/ipshared/0343/src/regfile.vhd" \
+"../../../bd/design_1/ipshared/0343/src/csr_file.vhd" \
+"../../../bd/design_1/ipshared/0343/src/cpu.vhd" \
+"../../../bd/design_1/ipshared/0343/src/dmem.vhd" \
+"../../../bd/design_1/ipshared/0343/src/imem_dp_ram.vhd" \
+"../../../bd/design_1/ipshared/0343/src/uart_rx.vhd" \
+"../../../bd/design_1/ipshared/0343/src/uart_tx.vhd" \
+"../../../bd/design_1/ipshared/0343/src/simple_timer.vhd" \
+"../../../bd/design_1/ipshared/0343/src/riscv_soc_boot.vhd" \
+"../../../bd/design_1/ipshared/0343/src/riscv_soc_axi_wrapper.vhd" \
+"../../../bd/design_1/ip/design_1_riscv_soc_axi_wrapper_0_1/sim/design_1_riscv_soc_axi_wrapper_0_1.vhd" \
+
+# Do not sort compile order
+nosort

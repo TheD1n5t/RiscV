@@ -1,0 +1,25 @@
+#-----------------------------------------------------------
+# xsim v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Wed May  6 16:18:58 2026
+# Process ID: 10772
+# Current directory: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.sim/sim_1/behav/xsim
+# Command line: xsim.exe -log simulate_ext.log -mode tcl -source {xsim.dir/tb_fault_injector_ext_behav/xsim_script.tcl}
+# Log file: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.sim/sim_1/behav/xsim/simulate_ext.log
+# Journal file: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.sim/sim_1/behav/xsim\xsim.jou
+# Running On        :DESKTOP-U0V267S
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26200
+# Processor Detail  :AMD Ryzen 7 3700X 8-Core Processor             
+# CPU Frequency     :3600 MHz
+# CPU Physical cores:8
+# CPU Logical cores :16
+# Host memory       :34282 MB
+# Swap memory       :6979 MB
+# Total Virtual     :41261 MB
+# Available Virtual :8815 MB
+#-----------------------------------------------------------
+source xsim.dir/tb_fault_injector_ext_behav/xsim_script.tcl
+run -all

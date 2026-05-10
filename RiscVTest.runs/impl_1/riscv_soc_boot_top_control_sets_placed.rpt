@@ -1,0 +1,120 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
+| Date         : Thu May  7 15:05:57 2026
+| Host         : DESKTOP-U0V267S running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file riscv_soc_boot_top_control_sets_placed.rpt
+| Design       : riscv_soc_boot_top
+| Device       : xczu3eg
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    42 |
+|    Minimum number of control sets                        |    42 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    22 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    42 |
+| >= 0 to < 4        |     6 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     8 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    28 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             102 |          100 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |            3174 |         1932 |
+| Yes          | No                    | No                     |               0 |            0 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |            1182 |          291 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------+------------------------------------------------------+----------------------------------------+------------------+----------------+--------------+
+|  Clock Signal  |                     Enable Signal                    |            Set/Reset Signal            | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+------------------------------------------------------+----------------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_st[1]_i_1__0_n_0           | reset_IBUF_inst/O                      |                1 |              2 |         2.00 |
+|  clk_IBUF_BUFG | u_soc/u_tx/FSM_sequential_st[1]_i_1_n_0              | reset_IBUF_inst/O                      |                1 |              2 |         2.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/watchdog_reset_stretch_reg[1]_0 | reset_IBUF_inst/O                      |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG | u_soc/u_tx/bit_cnt                                   | reset_IBUF_inst/O                      |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/bitidx                                    | reset_IBUF_inst/O                      |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_bl_state_reg[2]_0[0]       | reset_IBUF_inst/O                      |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/rx_data_r[7]_i_1_n_0                      | reset_IBUF_inst/O                      |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_bl_state_reg[1][3]         | reset_IBUF_inst/O                      |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/state_a_reg[1]_3[0]                      | reset_IBUF_inst/O                      |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_bl_state_reg[1][2]         | reset_IBUF_inst/O                      |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_bl_state_reg[1][0]         | reset_IBUF_inst/O                      |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_bl_state_reg[1][1]         | reset_IBUF_inst/O                      |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_tx/shreg                                     | reset_IBUF_inst/O                      |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_rx/cnt                                       | reset_IBUF_inst/O                      |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/p_0_out[2]                      | u_soc/u_cpu/regfile_inst/cpu_reset_int |               29 |             30 |         1.03 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/wdog_count[31]_i_1_n_0          | u_soc/u_cpu/regfile_inst/cpu_reset_int |               19 |             32 |         1.68 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/wdog_reload[31]_i_1_n_0         | u_soc/u_cpu/regfile_inst/cpu_reset_int |               20 |             32 |         1.60 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/csr_tmr_error_cnt               | u_soc/u_cpu/regfile_inst/cpu_reset_int |                4 |             32 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/dmem_ecc_double_cnt             | u_soc/u_cpu/regfile_inst/cpu_reset_int |                4 |             32 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/exec_result[31]_i_1_n_0                  | u_soc/u_cpu/regfile_inst/cpu_reset_int |               13 |             32 |         2.46 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/mem_addr_reg[31]_i_1_n_0                 | u_soc/u_cpu/regfile_inst/cpu_reset_int |                4 |             32 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/imem_ecc_single_cnt             | u_soc/u_cpu/regfile_inst/cpu_reset_int |                4 |             32 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/pc_a[31]_i_1_n_0                         | u_soc/u_cpu/regfile_inst/cpu_reset_int |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/E[1]                                     | reset_IBUF_inst/O                      |               12 |             32 |         2.67 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/E[0]                                     | reset_IBUF_inst/O                      |               13 |             32 |         2.46 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/load_data_reg[31]_i_1_n_0                | u_soc/u_cpu/regfile_inst/cpu_reset_int |               13 |             32 |         2.46 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/dmem_ecc_single_cnt             | u_soc/u_cpu/regfile_inst/cpu_reset_int |                4 |             32 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/imem_ecc_double_cnt             | u_soc/u_cpu/regfile_inst/cpu_reset_int |                4 |             32 |         8.00 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/mcause_b                        | u_soc/u_cpu/regfile_inst/cpu_reset_int |               23 |             32 |         1.39 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/mepc_b                          | u_soc/u_cpu/regfile_inst/cpu_reset_int |               23 |             32 |         1.39 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_read_reg[31]_i_1_n_0                 | u_soc/u_cpu/regfile_inst/cpu_reset_int |               30 |             32 |         1.07 |
+|  clk_IBUF_BUFG | u_soc/u_rx/E[0]                                      | reset_IBUF_inst/O                      |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/mie_a[31]_i_1_n_0               | u_soc/u_cpu/regfile_inst/cpu_reset_int |               31 |             32 |         1.03 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/csr_inst/mtvec_a[31]_i_1_n_0             | u_soc/u_cpu/regfile_inst/cpu_reset_int |               27 |             32 |         1.19 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/cur_rs2_val                              | u_soc/u_cpu/regfile_inst/cpu_reset_int |               18 |             64 |         3.56 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/instr_pc                                 | u_soc/u_cpu/regfile_inst/cpu_reset_int |               24 |             64 |         2.67 |
+|  clk_IBUF_BUFG | u_soc/u_rx/FSM_sequential_bl_state_reg[2][0]         | reset_IBUF_inst/O                      |               24 |             64 |         2.67 |
+|  clk_IBUF_BUFG | u_soc/u_rx/rx_valid_reg_0[0]                         | reset_IBUF_inst/O                      |               24 |             66 |         2.75 |
+|  clk_IBUF_BUFG |                                                      |                                        |              100 |            102 |         1.02 |
+|  clk_IBUF_BUFG |                                                      | reset_IBUF_inst/O                      |               28 |            118 |         4.21 |
+|  clk_IBUF_BUFG | u_soc/u_cpu/next_pc_reg                              | u_soc/u_cpu/regfile_inst/cpu_reset_int |               75 |            205 |         2.73 |
+|  clk_IBUF_BUFG |                                                      | u_soc/u_cpu/regfile_inst/cpu_reset_int |             1904 |           3056 |         1.61 |
++----------------+------------------------------------------------------+----------------------------------------+------------------+----------------+--------------+
+
+

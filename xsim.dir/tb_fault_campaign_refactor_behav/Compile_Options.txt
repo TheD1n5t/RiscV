@@ -1,0 +1,1 @@
+--debug "typical" --relax --mt "2" -L "work" -L "secureip" --snapshot "tb_fault_campaign_refactor_behav" "work.tb_fault_campaign" -log "campaign_elab.log" 

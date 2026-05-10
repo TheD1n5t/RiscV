@@ -1,0 +1,41 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
+| Date         : Thu May  7 13:24:48 2026
+| Host         : DESKTOP-U0V267S running 64-bit major release  (build 9200)
+| Command      : report_utilization -hierarchical -file resource_reports/full_fi_utilization_hier.rpt
+| Design       : riscv_soc_boot_top
+| Device       : xczu3eg-sbva484-1-i
+| Speed File   : -1
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++------------------------+--------------------+------------+------------+---------+------+------+--------+--------+------+------------+
+|        Instance        |       Module       | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | URAM | DSP Blocks |
++------------------------+--------------------+------------+------------+---------+------+------+--------+--------+------+------------+
+| riscv_soc_boot_top     |              (top) |      11819 |       4811 |    7008 |    0 | 2631 |      0 |      0 |    0 |          3 |
+|   (riscv_soc_boot_top) |              (top) |         13 |         13 |       0 |    0 |    0 |      0 |      0 |    0 |          0 |
+|   u_soc                |     riscv_soc_boot |      11806 |       4798 |    7008 |    0 | 2631 |      0 |      0 |    0 |          3 |
+|     (u_soc)            |     riscv_soc_boot |         51 |         51 |       0 |    0 |  380 |      0 |      0 |    0 |          0 |
+|     u_cpu              | riscv_core_memless |       2646 |       2646 |       0 |    0 | 1988 |      0 |      0 |    0 |          3 |
+|       (u_cpu)          | riscv_core_memless |       1166 |       1166 |       0 |    0 |  641 |      0 |      0 |    0 |          0 |
+|       alu_inst         |                alu |        127 |        127 |       0 |    0 |    0 |      0 |      0 |    0 |          3 |
+|       csr_inst         |           csr_file |        696 |        696 |       0 |    0 |  355 |      0 |      0 |    0 |          0 |
+|       regfile_inst     |            regfile |        657 |        657 |       0 |    0 |  992 |      0 |      0 |    0 |          0 |
+|     u_dmem             |               dmem |       1135 |        319 |     816 |    0 |   39 |      0 |      0 |    0 |          0 |
+|     u_imem             |        imem_dp_ram |       7814 |       1622 |    6192 |    0 |   39 |      0 |      0 |    0 |          0 |
+|     u_rx               |            uart_rx |         75 |         75 |       0 |    0 |   33 |      0 |      0 |    0 |          0 |
+|     u_timer            |       simple_timer |         55 |         55 |       0 |    0 |  129 |      0 |      0 |    0 |          0 |
+|     u_tx               |            uart_tx |         30 |         30 |       0 |    0 |   23 |      0 |      0 |    0 |          0 |
++------------------------+--------------------+------------+------------+---------+------+------+--------+--------+------+------------+
+
+

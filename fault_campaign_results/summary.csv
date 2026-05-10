@@ -1,0 +1,11 @@
+workload,variant,total,injected,masked,corrected,uncorrectable,failures,timeouts,success,success_rate
+regression13,baseline_fi,207,206,207,0,0,0,0,206,1
+regression13,pc_state_fi,207,206,123,84,0,0,0,206,1
+regression13,rf_tmr_fi,207,206,107,100,0,0,0,206,1
+regression13,rf_self_heal_fi,207,206,107,100,0,0,0,206,1
+regression13,mem_ecc_fi,207,206,90,116,1,0,0,205,0.9951
+signature62,baseline_fi,207,206,207,0,0,0,0,206,1
+signature62,pc_state_fi,207,206,123,84,0,0,0,206,1
+signature62,rf_tmr_fi,207,206,104,103,0,0,0,206,1
+signature62,rf_self_heal_fi,207,206,104,103,0,0,0,206,1
+signature62,mem_ecc_fi,207,206,25,181,1,0,0,205,0.9951

@@ -1,0 +1,34 @@
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2024.1/bin/unwrapped/win64.o/xelab.exe --debug typical --relax --mt 2 -L work -L secureip -generic_top CAMPAIGN_RUNS=200 -generic_top G_RF_TMR=true -generic_top G_PC_TMR=true -generic_top G_FAULT_INJECT=true -generic_top G_IMEM_ECC=false -generic_top G_STATE_TMR=true -generic_top G_RF_SELF_HEAL=true -generic_top G_DMEM_ECC=false --snapshot tb_fault_campaign_rf_self_heal_fi work.tb_fault_campaign -log D:\Documents\FAU\NanoSat\riscv_radhart_coll\RiscVFSM\fault_campaign_results\rf_self_heal_fi_elab.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package ieee.std_logic_textio
+Compiling package std.env
+Compiling architecture rtl of entity work.uart_rx [\uart_rx(baud=1000000)\]
+Compiling architecture rtl of entity work.uart_tx [\uart_tx(baud=1000000)\]
+Compiling architecture rtl of entity work.imem_dp_ram [\imem_dp_ram(g_fault_inject=true...]
+Compiling architecture syn of entity work.dmem [\dmem(g_fault_inject=true,g_ecc_...]
+Compiling architecture rtl of entity work.simple_timer [simple_timer_default]
+Compiling architecture rtl of entity work.fault_injector [\fault_injector(g_enable=true)\]
+Compiling architecture rtl of entity work.tmr_fault_voter [\tmr_fault_voter(g_fault_inject=...]
+Compiling architecture rtl of entity work.fault_injector [\fault_injector(width=4,g_enable...]
+Compiling architecture rtl of entity work.tmr_fault_voter [\tmr_fault_voter(width=4,g_fault...]
+Compiling architecture rtl of entity work.decoder [decoder_default]
+Compiling architecture rtl of entity work.regfile [\regfile(g_fault_inject=true,g_s...]
+Compiling architecture rtl of entity work.csr_file [csr_file_default]
+Compiling architecture behavioral of entity work.alu [alu_default]
+Compiling architecture rtl of entity work.load_store_unit [load_store_unit_default]
+Compiling architecture rtl of entity work.riscv_core_memless [\riscv_core_memless(g_fault_inje...]
+Compiling architecture rtl of entity work.riscv_soc_boot [\riscv_soc_boot(baud=1000000,g_f...]
+Compiling architecture sim of entity work.tb_fault_campaign
+Built simulation snapshot tb_fault_campaign_rf_self_heal_fi

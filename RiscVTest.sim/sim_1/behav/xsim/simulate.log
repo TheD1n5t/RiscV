@@ -1,22 +1,102 @@
 Time resolution is 1 ps
-Note: DMEM DEBUG BUILD ACTIVE
-Time: 0 ps  Iteration: 0  Process: /tb_riscv_soc_boot/uut/u_dmem/sanity_report_dmem  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sources_1/new/dmem.vhd
-Note: RISCV_SOC_BOOT DEBUG BUILD ACTIVE
-Time: 0 ps  Iteration: 0  Process: /tb_riscv_soc_boot/uut/sanity_report  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sources_1/new/riscv_soc_boot.vhd
-Note: Loaded payload: file=/home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/hex_files/payload_dmem_ecc_single.hex len=40 => nwords=10 TEST_ID=32
-Time: 0 ps  Iteration: 0  Process: /tb_riscv_soc_boot/stim  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Note: TB: triggering DMEM single fault after first store
-Time: 461850 ns  Iteration: 0  Process: /tb_riscv_soc_boot/fault_inject_dmem_single  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Note: STORE idx=0 addr=0x00000000 data=0x00000011
-Time: 461850 ns  Iteration: 0  Process: /tb_riscv_soc_boot/monitor_store  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Note: TB: fi_dmem_strobe set to 1 (time-based hold)
-Time: 461851 ns  Iteration: 0  Process: /tb_riscv_soc_boot/fault_inject_dmem_single  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Note: TB: fi_dmem_strobe cleared
-Time: 461951 ns  Iteration: 0  Process: /tb_riscv_soc_boot/fault_inject_dmem_single  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Note: Waiting for boot_done (timeout 2460000000 ps)
-Time: 462 us  Iteration: 0  Process: /tb_riscv_soc_boot/stim  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Note: STORE idx=1 addr=0x00000040 data=0x00000000
-Time: 462470 ns  Iteration: 0  Process: /tb_riscv_soc_boot/monitor_store  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-Failure: TEST 32: DMEM single ECC counter did not increment
-Time: 462470 ns  Iteration: 0  Process: /tb_riscv_soc_boot/monitor_store  File: /home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd
-$finish called at time : 462470 ns : File "/home/krischan-ledwig/Documents/NanoSat/OpenSourceRiscV/cc-toolchain-linux/workspace/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_riscv_core.vhd" Line 818
+Note: FAULT CAMPAIGN: payload words=238 expected stores=62 deterministic=6 random=12
+Time: 0 ps  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: FAULT CAMPAIGN CONFIG: G_PC_TMR=true G_STATE_TMR=true G_RF_TMR=true G_RF_SELF_HEAL=true G_IMEM_ECC=true G_DMEM_ECC=true G_FAULT_INJECT=true
+Time: 0 ps  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 0 domain=REF      inject_cycle=-1
+Time: 10090 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 0 outcome=MASKED stores=62
+Time: 39850 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 1 domain=PC       inject_cycle=35
+Time: 49950 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 50710 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 1 outcome=CORRECTED stores=62
+Time: 79710 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 2 domain=STATE    inject_cycle=35
+Time: 89810 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: STATE TMR ERROR seen in core
+Time: 90570 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 2 outcome=CORRECTED stores=62
+Time: 119570 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 3 domain=RF       inject_cycle=45
+Time: 129670 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: REGFILE TMR ERROR seen in core (self-healing active)
+Time: 135070 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 3 outcome=CORRECTED stores=62
+Time: 159430 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 4 domain=DMEM     inject_cycle=30
+Time: 169530 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 4 outcome=CORRECTED stores=62
+Time: 199290 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 5 domain=IMEM     inject_cycle=1
+Time: 209390 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 5 outcome=CORRECTED stores=62
+Time: 239150 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 6 domain=IMEM2    inject_cycle=1
+Time: 249250 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 6 outcome=UNCORRECTABLE stores=62 corrected_seen=true
+Time: 279010 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 7 domain=PC-RND   inject_cycle=64
+Time: 289110 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 290450 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 7 outcome=CORRECTED stores=62
+Time: 318870 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 8 domain=PC-RND   inject_cycle=121
+Time: 328970 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 331450 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 8 outcome=CORRECTED stores=62
+Time: 358730 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 9 domain=IM-RND   inject_cycle=41
+Time: 368830 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 9 outcome=CORRECTED stores=62
+Time: 398590 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 10 domain=IM-RND   inject_cycle=114
+Time: 408690 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 10 outcome=CORRECTED stores=62
+Time: 438450 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 11 domain=ST-RND   inject_cycle=21
+Time: 448550 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: STATE TMR ERROR seen in core
+Time: 449030 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 11 outcome=CORRECTED stores=62
+Time: 478310 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 12 domain=IM-RND   inject_cycle=93
+Time: 488410 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 12 outcome=CORRECTED stores=62
+Time: 518170 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 13 domain=PC-RND   inject_cycle=82
+Time: 528270 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 529970 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 13 outcome=CORRECTED stores=62
+Time: 558030 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 14 domain=DM-RND   inject_cycle=59
+Time: 568130 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 14 outcome=MASKED stores=62
+Time: 597890 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 15 domain=DM-RND   inject_cycle=113
+Time: 607990 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 15 outcome=MASKED stores=62
+Time: 637750 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 16 domain=PC-RND   inject_cycle=102
+Time: 647850 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 649950 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 16 outcome=CORRECTED stores=62
+Time: 677610 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 17 domain=DM-RND   inject_cycle=31
+Time: 687710 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: RUN 17 outcome=CORRECTED stores=62
+Time: 717470 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: CAMPAIGN RUN 18 domain=PC-RND   inject_cycle=41
+Time: 727570 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: PC TMR ERROR seen in core
+Time: 728450 ns  Iteration: 0  Process: /tb_fault_campaign/uut/u_cpu/line__797  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sources_1/new/cpu.vhd
+Note: RUN 18 outcome=CORRECTED stores=62
+Time: 757330 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+Note: FAULT CAMPAIGN SUMMARY: total=19 injected=18 masked=3 corrected=15 uncorrectable=1 failures=0 timeouts=0
+Time: 757330 ns  Iteration: 0  Process: /tb_fault_campaign/stim  File: D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd
+$finish called at time : 757330 ns : File "D:/Documents/FAU/NanoSat/riscv_radhart_coll/RiscVFSM/RiscVTest.srcs/sim_1/new/tb_fault_campaign.vhd" Line 696

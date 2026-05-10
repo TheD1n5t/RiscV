@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_fault_campaign_dbg_behav/xsimk.exe -runall -simmode gui -wdb tb_fault_campaign_dbg_behav.wdb -simrunnum 0 -socket 18606
+Design successfully loaded
+Design Loading Memory Usage: 12860 KB (Peak: 12860 KB)
+Design Loading CPU Usage: 77 ms
+Simulation completed
+Simulation Memory Usage: 13840 KB (Peak: 13840 KB)
+Simulation CPU Usage: 265 ms

@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_fault_campaign_signature62_mem_ecc_fi/xsimk.exe -runall -simmode gui -wdb tb_fault_campaign_signature62_mem_ecc_fi.wdb -simrunnum 0 -socket 43403
+Design successfully loaded
+Design Loading Memory Usage: 12028 KB (Peak: 12028 KB)
+Design Loading CPU Usage: 15 ms
+Simulation completed
+Simulation Memory Usage: 13024 KB (Peak: 13024 KB)
+Simulation CPU Usage: 4499 ms

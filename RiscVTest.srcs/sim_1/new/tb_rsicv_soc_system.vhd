@@ -82,6 +82,7 @@ architecture sim of tb_riscv_soc_system is
   signal clk       : std_logic := '0';
   signal reset     : std_logic := '1';
   signal uart_rx_i : std_logic := '1';
+  signal uart_tx_o : std_logic;
   signal led0_o    : std_logic;
 
   signal boot_done_o  : std_logic;
@@ -359,8 +360,10 @@ begin
       clk               => clk,
       reset             => reset,
       uart_rx_i         => uart_rx_i,
+      uart_tx_o         => uart_tx_o,
       led0_o            => led0_o,
       boot_done_o       => boot_done_o,
+      boot_error_o      => open,
       prog_we_o         => prog_we_o,
       prog_addr_o       => prog_addr_o,
       prog_wdata_o      => prog_wdata_o,
@@ -521,7 +524,7 @@ begin
       wait;
     end if;
 
-    wait until rising_edge(clk) and prog_we_o = '1' and prog_addr_o = x"00000002";
+    wait until rising_edge(clk) and prog_we_o = '1' and prog_addr_o = x"00000008";
 
     report "FAULT INJECTION: flipping 1 bit in IMEM word 2" severity note;
 
@@ -639,7 +642,7 @@ end process;
         if prog_we_o = '1' then
           addr_u := unsigned(prog_addr_o);
 
-          assert addr_u = to_unsigned(write_count, 32)
+          assert addr_u = to_unsigned(write_count * 4, 32)
             report "IMEM write addr mismatch"
             severity failure;
 

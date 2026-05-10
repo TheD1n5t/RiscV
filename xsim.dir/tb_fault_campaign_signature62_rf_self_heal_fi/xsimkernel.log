@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_fault_campaign_signature62_rf_self_heal_fi/xsimk.exe -runall -simmode gui -wdb tb_fault_campaign_signature62_rf_self_heal_fi.wdb -simrunnum 0 -socket 43387
+Design successfully loaded
+Design Loading Memory Usage: 11904 KB (Peak: 11904 KB)
+Design Loading CPU Usage: 15 ms
+Simulation completed
+Simulation Memory Usage: 12832 KB (Peak: 12832 KB)
+Simulation CPU Usage: 2671 ms
