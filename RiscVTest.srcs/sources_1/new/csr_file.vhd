@@ -35,9 +35,7 @@ entity csr_file is
     mepc_out      : out std_logic_vector(31 downto 0);
 
     dmem_ecc_single_error_i : in std_logic;
-    dmem_ecc_double_error_i : in std_logic;
-    imem_ecc_single_error_i : in std_logic;
-    imem_ecc_double_error_i : in std_logic
+    dmem_ecc_double_error_i : in std_logic
   );
 end entity;
 
@@ -56,8 +54,6 @@ architecture rtl of csr_file is
   constant CSR_CSR_TMR_ERR     : std_logic_vector(11 downto 0) := x"7C2";
   constant CSR_DMEM_ECC_SINGLE : std_logic_vector(11 downto 0) := x"7C3";
   constant CSR_DMEM_ECC_DOUBLE : std_logic_vector(11 downto 0) := x"7C4";
-  constant CSR_IMEM_ECC_SINGLE : std_logic_vector(11 downto 0) := x"7C5";
-  constant CSR_IMEM_ECC_DOUBLE : std_logic_vector(11 downto 0) := x"7C6";
 
   -- watchdog
   constant CSR_WDOG_CTRL   : std_logic_vector(11 downto 0) := x"7D0";
@@ -83,8 +79,6 @@ architecture rtl of csr_file is
   signal csr_tmr_error_cnt     : unsigned(31 downto 0) := (others => '0');
   signal dmem_ecc_single_cnt   : unsigned(31 downto 0) := (others => '0');
   signal dmem_ecc_double_cnt   : unsigned(31 downto 0) := (others => '0');
-  signal imem_ecc_single_cnt   : unsigned(31 downto 0) := (others => '0');
-  signal imem_ecc_double_cnt   : unsigned(31 downto 0) := (others => '0');
 
   ---------------------------------------------------------
   -- watchdog
@@ -165,8 +159,7 @@ begin
     mstatus_v, mie_v, mtvec_v, mepc_v, mcause_v, mip,
     pc_tmr_error_cnt, state_tmr_error_cnt, csr_tmr_error_cnt,
     wdog_enable, wdog_timeout, wdog_reload, wdog_count,
-    dmem_ecc_single_cnt, dmem_ecc_double_cnt,
-    imem_ecc_single_cnt, imem_ecc_double_cnt
+    dmem_ecc_single_cnt, dmem_ecc_double_cnt
   )
     variable wdog_ctrl_rd : std_logic_vector(31 downto 0);
   begin
@@ -211,12 +204,6 @@ begin
 
         when CSR_DMEM_ECC_DOUBLE =>
           rdata_reg <= std_logic_vector(dmem_ecc_double_cnt);
-
-        when CSR_IMEM_ECC_SINGLE =>
-          rdata_reg <= std_logic_vector(imem_ecc_single_cnt);
-
-        when CSR_IMEM_ECC_DOUBLE =>
-          rdata_reg <= std_logic_vector(imem_ecc_double_cnt);
 
         when CSR_WDOG_CTRL =>
           rdata_reg <= wdog_ctrl_rd;
@@ -273,8 +260,6 @@ begin
 
         dmem_ecc_single_cnt <= (others => '0');
         dmem_ecc_double_cnt <= (others => '0');
-        imem_ecc_single_cnt <= (others => '0');
-        imem_ecc_double_cnt <= (others => '0');
 
         wdog_enable      <= '0';
         wdog_timeout     <= '0';
@@ -397,18 +382,6 @@ begin
         if dmem_ecc_double_error_i = '1' then
           if dmem_ecc_double_cnt /= x"FFFFFFFF" then
             dmem_ecc_double_cnt <= dmem_ecc_double_cnt + 1;
-          end if;
-        end if;
-
-        if imem_ecc_single_error_i = '1' then
-          if imem_ecc_single_cnt /= x"FFFFFFFF" then
-            imem_ecc_single_cnt <= imem_ecc_single_cnt + 1;
-          end if;
-        end if;
-
-        if imem_ecc_double_error_i = '1' then
-          if imem_ecc_double_cnt /= x"FFFFFFFF" then
-            imem_ecc_double_cnt <= imem_ecc_double_cnt + 1;
           end if;
         end if;
 

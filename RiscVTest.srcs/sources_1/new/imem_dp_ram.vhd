@@ -11,15 +11,16 @@ entity imem_dp_ram is
   port(
     clk : in std_logic;
 
-    pc               : in  std_logic_vector(31 downto 0);
-    instr_out        : out std_logic_vector(31 downto 0);
-    ecc_single_error : out std_logic;
-    ecc_double_error : out std_logic;
+    -- Fetch port
+    pc        : in  std_logic_vector(31 downto 0);
+    instr_out : out std_logic_vector(31 downto 0);
 
+    -- Program port (word address)
     prog_we    : in  std_logic;
     prog_addr  : in  std_logic_vector(31 downto 0);
     prog_wdata : in  std_logic_vector(31 downto 0);
 
+    -- Fault injection for IMEM
     fi_imem_mask_i   : in std_logic_vector(38 downto 0) := (others => '0');
     fi_imem_addr_i   : in std_logic_vector(11 downto 0) := (others => '0');
     fi_imem_strobe_i : in std_logic := '0'
@@ -27,9 +28,13 @@ entity imem_dp_ram is
 end imem_dp_ram;
 
 architecture rtl of imem_dp_ram is
+  signal fetch_addr  : unsigned(29 downto 0);
+  signal prog_addr_u : unsigned(31 downto 0);
+  signal fi_addr_u   : unsigned(11 downto 0);
 
-  constant NOP : std_logic_vector(31 downto 0) := x"00000013";
-
+  --------------------------------------------------------------------
+  -- Build full codeword from data + parity bits
+  --------------------------------------------------------------------
   function get_codeword_from_data_and_parity(
     d  : std_logic_vector(31 downto 0);
     p  : std_logic_vector(5 downto 0);
@@ -55,7 +60,12 @@ architecture rtl of imem_dp_ram is
     return cw;
   end function;
 
-  function extract_data_from_codeword(cw : std_logic_vector(38 downto 0)) return std_logic_vector is
+  --------------------------------------------------------------------
+  -- Extract 32-bit data from codeword
+  --------------------------------------------------------------------
+  function extract_data_from_codeword(
+    cw : std_logic_vector(38 downto 0)
+  ) return std_logic_vector is
     variable d  : std_logic_vector(31 downto 0) := (others => '0');
     variable di : integer := 0;
   begin
@@ -71,7 +81,12 @@ architecture rtl of imem_dp_ram is
     return d;
   end function;
 
-  function calc_hamming_parity(d : std_logic_vector(31 downto 0)) return std_logic_vector is
+  --------------------------------------------------------------------
+  -- Calculate Hamming parity bits
+  --------------------------------------------------------------------
+  function calc_hamming_parity(
+    d : std_logic_vector(31 downto 0)
+  ) return std_logic_vector is
     variable p       : std_logic_vector(5 downto 0) := (others => '0');
     variable cw      : std_logic_vector(37 downto 0) := (others => '0');
     variable di      : integer := 0;
@@ -98,10 +113,17 @@ architecture rtl of imem_dp_ram is
       end loop;
       p(k) := bit_xor;
     end loop;
+
     return p;
   end function;
 
-  function calc_global_parity(d : std_logic_vector(31 downto 0); p : std_logic_vector(5 downto 0)) return std_logic is
+  --------------------------------------------------------------------
+  -- Calculate global parity
+  --------------------------------------------------------------------
+  function calc_global_parity(
+    d : std_logic_vector(31 downto 0);
+    p : std_logic_vector(5 downto 0)
+  ) return std_logic is
     variable gp : std_logic := '0';
     variable cw : std_logic_vector(37 downto 0);
   begin
@@ -112,7 +134,12 @@ architecture rtl of imem_dp_ram is
     return gp;
   end function;
 
-  function encode_ecc(d : std_logic_vector(31 downto 0)) return std_logic_vector is
+  --------------------------------------------------------------------
+  -- Encode ECC bits [6:0]
+  --------------------------------------------------------------------
+  function encode_ecc(
+    d : std_logic_vector(31 downto 0)
+  ) return std_logic_vector is
     variable p  : std_logic_vector(5 downto 0);
     variable gp : std_logic;
     variable e  : std_logic_vector(6 downto 0);
@@ -126,54 +153,42 @@ architecture rtl of imem_dp_ram is
 
 begin
 
+  fetch_addr  <= unsigned(pc(31 downto 2));
+  prog_addr_u <= unsigned(prog_addr);
+  fi_addr_u   <= unsigned(fi_imem_addr_i);
+
   gen_ecc : if G_ECC_ENABLE generate
     type ram_t is array (0 to WORDS-1) of std_logic_vector(38 downto 0);
     signal ram : ram_t := (others => (others => '0'));
     attribute ram_style : string;
     attribute ram_style of ram : signal is "block";
-
-    signal rd_word_reg   : std_logic_vector(38 downto 0) := (others => '0');
-    signal instr_reg     : std_logic_vector(31 downto 0) := NOP;
-    signal single_err_s  : std_logic := '0';
-    signal double_err_s  : std_logic := '0';
-    signal fi_addr_int_s : integer range 0 to 4095;
-    signal fi_word_in_s  : std_logic_vector(38 downto 0);
-    signal fi_word_s     : std_logic_vector(38 downto 0);
+    signal rd_word_reg : std_logic_vector(38 downto 0) := (others => '0');
+    signal instr_reg   : std_logic_vector(31 downto 0) := x"00000013";
   begin
-    fi_addr_int_s <= to_integer(unsigned(fi_imem_addr_i));
-    fi_word_in_s  <= ram(fi_addr_int_s) when fi_addr_int_s < WORDS else (others => '0');
-
-    fi_ram_word : entity work.fault_injector
-      generic map(WIDTH => 39, G_ENABLE => G_FAULT_INJECT)
-      port map(
-        data_i   => fi_word_in_s,
-        mask_i   => fi_imem_mask_i,
-        strobe_i => fi_imem_strobe_i,
-        data_o   => fi_word_s
-      );
-
     process(clk)
-      variable fa_int : integer;
-      variable pa_int : integer;
-      variable ecc_v  : std_logic_vector(6 downto 0);
+      variable fa_int  : integer;
+      variable pa_int  : integer;
+      variable fia_int : integer;
+      variable ecc_v   : std_logic_vector(6 downto 0);
     begin
       if rising_edge(clk) then
-        fa_int := to_integer(unsigned(pc(31 downto 2)));
+        fa_int := to_integer(fetch_addr);
         if fa_int >= 0 and fa_int < WORDS then
           rd_word_reg <= ram(fa_int);
         else
-          rd_word_reg <= encode_ecc(NOP) & NOP;
+          rd_word_reg <= encode_ecc(x"00000013") & x"00000013";
         end if;
 
         if prog_we = '1' then
-          pa_int := to_integer(unsigned(prog_addr));
+          pa_int := to_integer(prog_addr_u);
           if pa_int >= 0 and pa_int < WORDS then
             ecc_v := encode_ecc(prog_wdata);
             ram(pa_int) <= ecc_v & prog_wdata;
           end if;
         elsif G_FAULT_INJECT and fi_imem_strobe_i = '1' then
-          if fi_addr_int_s >= 0 and fi_addr_int_s < WORDS then
-            ram(fi_addr_int_s) <= fi_word_s;
+          fia_int := to_integer(fi_addr_u);
+          if fia_int >= 0 and fia_int < WORDS then
+            ram(fia_int) <= ram(fia_int) xor fi_imem_mask_i;
           end if;
         end if;
       end if;
@@ -188,43 +203,29 @@ begin
       variable overall_error : std_logic;
       variable cw            : std_logic_vector(38 downto 0);
       variable d_corr        : std_logic_vector(31 downto 0);
-      variable se            : std_logic;
-      variable de            : std_logic;
     begin
       stored_data := rd_word_reg(31 downto 0);
       stored_ecc  := rd_word_reg(38 downto 32);
       p_calc      := calc_hamming_parity(stored_data);
       gp_calc     := calc_global_parity(stored_data, stored_ecc(5 downto 0));
-
       syndrome      := unsigned(p_calc xor stored_ecc(5 downto 0));
       overall_error := gp_calc xor stored_ecc(6);
-      cw            := get_codeword_from_data_and_parity(stored_data, stored_ecc(5 downto 0), stored_ecc(6));
-      d_corr        := stored_data;
-      se            := '0';
-      de            := '0';
+      cw := get_codeword_from_data_and_parity(stored_data, stored_ecc(5 downto 0), stored_ecc(6));
+      d_corr := stored_data;
 
       if syndrome /= 0 then
         if overall_error = '1' then
-          se := '1';
           if to_integer(syndrome) >= 1 and to_integer(syndrome) <= 38 then
             cw(to_integer(syndrome)-1) := not cw(to_integer(syndrome)-1);
           end if;
           d_corr := extract_data_from_codeword(cw);
-        else
-          de := '1';
         end if;
-      elsif overall_error = '1' then
-        se := '1';
       end if;
 
-      instr_reg    <= d_corr;
-      single_err_s <= se;
-      double_err_s <= de;
+      instr_reg <= d_corr;
     end process;
 
-    instr_out        <= instr_reg;
-    ecc_single_error <= single_err_s;
-    ecc_double_error <= double_err_s;
+    instr_out <= instr_reg;
   end generate;
 
   gen_plain : if not G_ECC_ENABLE generate
@@ -232,32 +233,36 @@ begin
     signal ram : ram_t := (others => (others => '0'));
     attribute ram_style : string;
     attribute ram_style of ram : signal is "block";
-    signal instr_reg : std_logic_vector(31 downto 0) := NOP;
+    signal instr_reg : std_logic_vector(31 downto 0) := x"00000013";
   begin
     process(clk)
-      variable fa_int : integer;
-      variable pa_int : integer;
+      variable fa_int  : integer;
+      variable pa_int  : integer;
+      variable fia_int : integer;
     begin
       if rising_edge(clk) then
-        fa_int := to_integer(unsigned(pc(31 downto 2)));
+        fa_int := to_integer(fetch_addr);
         if fa_int >= 0 and fa_int < WORDS then
           instr_reg <= ram(fa_int);
         else
-          instr_reg <= NOP;
+          instr_reg <= x"00000013";
         end if;
 
         if prog_we = '1' then
-          pa_int := to_integer(unsigned(prog_addr));
+          pa_int := to_integer(prog_addr_u);
           if pa_int >= 0 and pa_int < WORDS then
             ram(pa_int) <= prog_wdata;
+          end if;
+        elsif G_FAULT_INJECT and fi_imem_strobe_i = '1' then
+          fia_int := to_integer(fi_addr_u);
+          if fia_int >= 0 and fia_int < WORDS then
+            ram(fia_int) <= ram(fia_int) xor fi_imem_mask_i(31 downto 0);
           end if;
         end if;
       end if;
     end process;
 
-    instr_out        <= instr_reg;
-    ecc_single_error <= '0';
-    ecc_double_error <= '0';
+    instr_out <= instr_reg;
   end generate;
 
 end rtl;

@@ -42,16 +42,13 @@ entity riscv_core_memless is
     fi_rf_addr_i   : in std_logic_vector(4 downto 0)  := (others => '0');
     fi_rf_target_i : in std_logic_vector(1 downto 0)  := "00";
     fi_rf_strobe_i : in std_logic := '0';
+    pc_tmr_error_o       : out std_logic;
+    state_tmr_error_o    : out std_logic;
+    regfile_tmr_error_o  : out std_logic;
     -- Watchdog reset pulse from CSR block
     watchdog_reset_o        : out std_logic;
     dmem_ecc_single_error_i : in std_logic := '0';
-    dmem_ecc_double_error_i : in std_logic := '0';
-    imem_ecc_single_error_i : in std_logic := '0';
-    imem_ecc_double_error_i : in std_logic := '0';
-
-    pc_tmr_error_o          : out std_logic := '0';
-    state_tmr_error_o       : out std_logic := '0';
-    regfile_tmr_error_o     : out std_logic := '0'
+    dmem_ecc_double_error_i : in std_logic := '0'
   );
 end riscv_core_memless;
 
@@ -143,11 +140,19 @@ architecture rtl of riscv_core_memless is
   signal state_enc_b      : std_logic_vector(3 downto 0);
   signal state_enc_c      : std_logic_vector(3 downto 0);
 
+  signal state_vote_slv_a : std_logic_vector(3 downto 0);
+  signal state_vote_slv_b : std_logic_vector(3 downto 0);
+  signal state_vote_slv_c : std_logic_vector(3 downto 0);
+
   signal state_v_slv      : std_logic_vector(3 downto 0) := "0000";
 
   signal pc_a             : std_logic_vector(31 downto 0) := (others => '0');
   signal pc_b             : std_logic_vector(31 downto 0) := (others => '0');
   signal pc_c             : std_logic_vector(31 downto 0) := (others => '0');
+
+  signal pc_vote_a        : std_logic_vector(31 downto 0);
+  signal pc_vote_b        : std_logic_vector(31 downto 0);
+  signal pc_vote_c        : std_logic_vector(31 downto 0);
 
   signal pc_v             : std_logic_vector(31 downto 0) := (others => '0');
   signal pc_tmr_error     : std_logic := '0';
@@ -293,77 +298,123 @@ architecture rtl of riscv_core_memless is
 
   signal watchdog_reset   : std_logic := '0';
 
+  --------------------------------------------------------------------
+  -- Accelerator MMIO
+  --------------------------------------------------------------------
+  signal acc_a_base       : std_logic_vector(31 downto 0) := (others => '0');
+  signal acc_b_base       : std_logic_vector(31 downto 0) := (others => '0');
+  signal acc_c_base       : std_logic_vector(31 downto 0) := (others => '0');
+  signal acc_m            : std_logic_vector(31 downto 0) := (others => '0');
+  signal acc_n            : std_logic_vector(31 downto 0) := (others => '0');
+  signal acc_k            : std_logic_vector(31 downto 0) := (others => '0');
+
+  signal acc_start_pulse  : std_logic := '0';
+  signal acc_busy         : std_logic := '0';
+  signal acc_done_raw     : std_logic := '0';
+  signal acc_done_sticky  : std_logic := '0';
+
+  signal is_mmio_addr     : std_logic;
+  signal is_acc_addr      : std_logic;
+  signal acc_reg_rdata    : std_logic_vector(31 downto 0);
+  signal dmem_rdata_eff   : std_logic_vector(31 downto 0);
+
   signal cpu_dmem_we      : std_logic := '0';
   signal cpu_dmem_addr    : std_logic_vector(31 downto 0) := (others => '0');
   signal cpu_dmem_wdata   : std_logic_vector(31 downto 0) := (others => '0');
 
+  signal acc_dmem_we      : std_logic;
+  signal acc_dmem_addr    : std_logic_vector(31 downto 0);
+  signal acc_dmem_wdata   : std_logic_vector(31 downto 0);
+
 begin
 
   --------------------------------------------------------------------
-  -- PC path with optional TMR voter and optional fault injection
+  -- Fault injection into PC voter inputs
   --------------------------------------------------------------------
-  gen_pc_tmr : if G_PC_TMR generate
-    pc_tmr : entity work.tmr_fault_voter
-      generic map(
-        WIDTH          => 32,
-        G_FAULT_INJECT => G_FAULT_INJECT
-      )
-      port map(
-        data_a_i   => pc_a,
-        data_b_i   => pc_b,
-        data_c_i   => pc_c,
-        fi_mask_i   => fi_pc_mask_i,
-        fi_target_i => fi_pc_target_i,
-        fi_strobe_i => fi_pc_strobe_i,
-        voted_o     => pc_v,
-        tmr_error_o => pc_tmr_error
-      );
-  end generate;
-
-  gen_pc_plain : if not G_PC_TMR generate
-    pc_v         <= pc_a;
-    pc_tmr_error <= '0';
-  end generate;
+  pc_vote_a <= pc_a xor fi_pc_mask_i
+    when (G_FAULT_INJECT and fi_pc_strobe_i = '1' and fi_pc_target_i = "00")
+    else pc_a;
+  pc_vote_b <= pc_b xor fi_pc_mask_i when (G_FAULT_INJECT and G_PC_TMR and fi_pc_strobe_i = '1' and fi_pc_target_i = "01") else pc_b;
+  pc_vote_c <= pc_c xor fi_pc_mask_i when (G_FAULT_INJECT and G_PC_TMR and fi_pc_strobe_i = '1' and fi_pc_target_i = "10") else pc_c;
 
   --------------------------------------------------------------------
-  -- State path with optional TMR voter and optional fault injection
+  -- Fault injection into STATE voter inputs
   --------------------------------------------------------------------
   state_enc_a <= state_to_slv(state_a);
   state_enc_b <= state_to_slv(state_b);
   state_enc_c <= state_to_slv(state_c);
 
-  gen_state_tmr : if G_STATE_TMR generate
-    state_tmr : entity work.tmr_fault_voter
-      generic map(
-        WIDTH          => 4,
-        G_FAULT_INJECT => G_FAULT_INJECT
-      )
-      port map(
-        data_a_i   => state_enc_a,
-        data_b_i   => state_enc_b,
-        data_c_i   => state_enc_c,
-        fi_mask_i   => fi_state_mask_i,
-        fi_target_i => fi_state_target_i,
-        fi_strobe_i => fi_state_strobe_i,
-        voted_o     => state_v_slv,
-        tmr_error_o => state_tmr_error
-      );
-  end generate;
+  state_vote_slv_a <= state_enc_a xor fi_state_mask_i
+    when (G_FAULT_INJECT and fi_state_strobe_i = '1' and fi_state_target_i = "00")
+    else state_enc_a;
 
-  gen_state_plain : if not G_STATE_TMR generate
-    state_v_slv     <= state_enc_a;
-    state_tmr_error <= '0';
-  end generate;
+  state_vote_slv_b <= state_enc_b xor fi_state_mask_i
+    when (G_FAULT_INJECT and G_STATE_TMR and fi_state_strobe_i = '1' and fi_state_target_i = "01")
+    else state_enc_b;
+
+  state_vote_slv_c <= state_enc_c xor fi_state_mask_i
+    when (G_FAULT_INJECT and G_STATE_TMR and fi_state_strobe_i = '1' and fi_state_target_i = "10")
+    else state_enc_c;
+
+  --------------------------------------------------------------------
+  -- TMR voters
+  --------------------------------------------------------------------
+  process(state_vote_slv_a, state_vote_slv_b, state_vote_slv_c)
+  begin
+    if G_STATE_TMR then
+      if (state_vote_slv_a = state_vote_slv_b) or (state_vote_slv_a = state_vote_slv_c) then
+        state_v_slv <= state_vote_slv_a;
+      elsif state_vote_slv_b = state_vote_slv_c then
+        state_v_slv <= state_vote_slv_b;
+      else
+        state_v_slv <= state_vote_slv_a;
+      end if;
+
+      if (state_vote_slv_a = state_vote_slv_b) and (state_vote_slv_b = state_vote_slv_c) then
+        state_tmr_error <= '0';
+      else
+        state_tmr_error <= '1';
+      end if;
+    else
+      state_v_slv <= state_enc_a;
+      state_tmr_error <= '0';
+    end if;
+  end process;
 
   state_v <= slv_to_state(state_v_slv);
+
+  process(pc_vote_a, pc_vote_b, pc_vote_c)
+  begin
+    if G_PC_TMR then
+      if (pc_vote_a = pc_vote_b) or (pc_vote_a = pc_vote_c) then
+        pc_v <= pc_vote_a;
+      elsif pc_vote_b = pc_vote_c then
+        pc_v <= pc_vote_b;
+      else
+        pc_v <= pc_vote_a;
+      end if;
+
+      if (pc_vote_a = pc_vote_b) and (pc_vote_b = pc_vote_c) then
+        pc_tmr_error <= '0';
+      else
+        pc_tmr_error <= '1';
+      end if;
+    else
+      pc_v <= pc_a;
+      pc_tmr_error <= '0';
+    end if;
+  end process;
 
   --------------------------------------------------------------------
   -- Top-level output muxes
   --------------------------------------------------------------------
   imem_pc    <= pc_v;
-  dmem_we    <= cpu_dmem_we;
-  dmem_addr  <= cpu_dmem_addr;
-  dmem_wdata <= cpu_dmem_wdata;
+  dmem_we    <= acc_dmem_we    when acc_busy = '1' else cpu_dmem_we;
+  dmem_addr  <= acc_dmem_addr  when acc_busy = '1' else cpu_dmem_addr;
+  dmem_wdata <= acc_dmem_wdata when acc_busy = '1' else cpu_dmem_wdata;
+  pc_tmr_error_o      <= pc_tmr_error;
+  state_tmr_error_o   <= state_tmr_error;
+  regfile_tmr_error_o <= regfile_tmr_error;
 
   --------------------------------------------------------------------
   -- Common derived signals
@@ -383,6 +434,9 @@ begin
 
   csr_zimm  <= (31 downto 5 => '0') & cur_rs1_addr;
   csr_wdata <= csr_zimm when cur_csr_use_imm = '1' else cur_rs1_val;
+
+  is_mmio_addr <= '1' when mem_addr_reg(31 downto 16) = x"4000"  else '0';
+  is_acc_addr  <= '1' when mem_addr_reg(31 downto 12) = x"40000" else '0';
 
   --------------------------------------------------------------------
   -- Decoder
@@ -425,8 +479,8 @@ begin
   regfile_inst : entity work.regfile
     generic map(
       G_FAULT_INJECT => G_FAULT_INJECT,
-      G_TMR          => G_RF_TMR,
-      G_SELF_HEAL    => G_RF_SELF_HEAL
+      G_SELF_HEAL    => G_RF_SELF_HEAL,
+      G_TMR_ENABLE   => G_RF_TMR
     )
     port map(
       clk                 => clk,
@@ -473,9 +527,7 @@ begin
       mstatus_out              => csr_mstatus,
       mepc_out                 => csr_mepc,
       dmem_ecc_single_error_i  => dmem_ecc_single_error_i,
-      dmem_ecc_double_error_i  => dmem_ecc_double_error_i,
-      imem_ecc_single_error_i  => imem_ecc_single_error_i,
-      imem_ecc_double_error_i  => imem_ecc_double_error_i
+      dmem_ecc_double_error_i  => dmem_ecc_double_error_i
     );
 
   --------------------------------------------------------------------
@@ -516,22 +568,103 @@ begin
   --------------------------------------------------------------------
   -- Store data formatting
   --------------------------------------------------------------------
-  lsu_inst : entity work.load_store_unit
-    port map(
-      dmem_rdata_i  => dmem_rdata,
-      rs2_i         => cur_rs2_val,
-      byte_offset_i => byte_offset,
-      load_size_i   => cur_load_size,
-      load_sign_i   => cur_load_sign,
-      store_size_i  => cur_store_size,
-      load_data_o   => load_data_aligned,
-      store_data_o  => dmem_data_in
-    );
+  process(cur_rs2_val, cur_store_size, byte_offset, dmem_rdata)
+    variable tmp : std_logic_vector(31 downto 0);
+  begin
+    tmp := dmem_rdata;
+
+    case cur_store_size is
+      when "00" =>
+        case byte_offset is
+          when "00"   => tmp(7 downto 0)   := cur_rs2_val(7 downto 0);
+          when "01"   => tmp(15 downto 8)  := cur_rs2_val(7 downto 0);
+          when "10"   => tmp(23 downto 16) := cur_rs2_val(7 downto 0);
+          when others => tmp(31 downto 24) := cur_rs2_val(7 downto 0);
+        end case;
+
+      when "01" =>
+        if byte_offset(1) = '0' then
+          tmp(15 downto 0)  := cur_rs2_val(15 downto 0);
+        else
+          tmp(31 downto 16) := cur_rs2_val(15 downto 0);
+        end if;
+
+      when others =>
+        tmp := cur_rs2_val;
+    end case;
+
+    dmem_data_in <= tmp;
+  end process;
+
+  --------------------------------------------------------------------
+  -- Accelerator MMIO read
+  --------------------------------------------------------------------
+  process(mem_addr_reg, acc_a_base, acc_b_base, acc_c_base, acc_m, acc_n, acc_k, acc_busy, acc_done_sticky)
+  begin
+    acc_reg_rdata <= (others => '0');
+
+    case mem_addr_reg(7 downto 0) is
+      when x"00" =>
+        acc_reg_rdata(1) <= acc_busy;
+        acc_reg_rdata(2) <= acc_done_sticky;
+      when x"04" => acc_reg_rdata <= acc_a_base;
+      when x"08" => acc_reg_rdata <= acc_b_base;
+      when x"0C" => acc_reg_rdata <= acc_c_base;
+      when x"10" => acc_reg_rdata <= acc_m;
+      when x"14" => acc_reg_rdata <= acc_n;
+      when x"18" => acc_reg_rdata <= acc_k;
+      when others => null;
+    end case;
+  end process;
+
+  dmem_rdata_eff <= acc_reg_rdata when is_acc_addr = '1' else dmem_rdata;
+
+  --------------------------------------------------------------------
+  -- Load align / sign extend
+  --------------------------------------------------------------------
+  process(dmem_rdata_eff, cur_load_size, cur_load_sign, byte_offset)
+    variable b : std_logic_vector(7 downto 0);
+    variable h : std_logic_vector(15 downto 0);
+  begin
+    load_data_aligned <= dmem_rdata_eff;
+
+    case cur_load_size is
+      when "00" =>
+        case byte_offset is
+          when "00"   => b := dmem_rdata_eff(7 downto 0);
+          when "01"   => b := dmem_rdata_eff(15 downto 8);
+          when "10"   => b := dmem_rdata_eff(23 downto 16);
+          when others => b := dmem_rdata_eff(31 downto 24);
+        end case;
+
+        if cur_load_sign = '1' and b(7) = '1' then
+          load_data_aligned <= (31 downto 8 => '1') & b;
+        else
+          load_data_aligned <= (31 downto 8 => '0') & b;
+        end if;
+
+      when "01" =>
+        if byte_offset(1) = '0' then
+          h := dmem_rdata_eff(15 downto 0);
+        else
+          h := dmem_rdata_eff(31 downto 16);
+        end if;
+
+        if cur_load_sign = '1' and h(15) = '1' then
+          load_data_aligned <= (31 downto 16 => '1') & h;
+        else
+          load_data_aligned <= (31 downto 16 => '0') & h;
+        end if;
+
+      when others =>
+        load_data_aligned <= dmem_rdata_eff;
+    end case;
+  end process;
 
   --------------------------------------------------------------------
   -- CPU-side data memory outputs
   --------------------------------------------------------------------
-  cpu_dmem_we    <= '1' when state_v = ST_MEM_WRITE else '0';
+  cpu_dmem_we    <= '1' when (state_v = ST_MEM_WRITE and is_acc_addr = '0') else '0';
   cpu_dmem_addr  <= calc_mem_addr when (state_v = ST_EXEC_LOAD_ADDR or state_v = ST_EXEC_STORE_ADDR) else mem_addr_reg;
   cpu_dmem_wdata <= dmem_data_in;
 
@@ -539,23 +672,6 @@ begin
   -- Main FSM
   --------------------------------------------------------------------
   process(clk)
-    procedure set_pc_all(v : std_logic_vector(31 downto 0)) is
-    begin
-      pc_a <= v;
-      if G_PC_TMR then
-        pc_b <= v;
-        pc_c <= v;
-      end if;
-    end procedure;
-
-    procedure set_state_all(v : state_t) is
-    begin
-      state_a <= v;
-      if G_STATE_TMR then
-        state_b <= v;
-        state_c <= v;
-      end if;
-    end procedure;
   begin
     if rising_edge(clk) then
 
@@ -568,10 +684,16 @@ begin
       trap_cause_in   <= (others => '0');
       mret_exec       <= '0';
 
-      if reset = '1' then
-        set_state_all(ST_RESET);
+      acc_start_pulse <= '0';
 
-        set_pc_all((others => '0'));
+      if reset = '1' then
+        state_a         <= ST_RESET;
+        state_b         <= ST_RESET;
+        state_c         <= ST_RESET;
+
+        pc_a            <= (others => '0');
+        pc_b            <= (others => '0');
+        pc_c            <= (others => '0');
 
         instr_reg       <= NOP;
         instr_pc        <= (others => '0');
@@ -618,21 +740,44 @@ begin
         csr_read_reg    <= (others => '0');
         next_pc_reg     <= (others => '0');
 
+        acc_a_base      <= (others => '0');
+        acc_b_base      <= (others => '0');
+        acc_c_base      <= (others => '0');
+        acc_m           <= (others => '0');
+        acc_n           <= (others => '0');
+        acc_k           <= (others => '0');
+        acc_done_sticky <= '0';
+
       else
-        case state_v is
+        if acc_done_raw = '1' then
+          acc_done_sticky <= '1';
+        end if;
+
+        if acc_busy = '1' then
+          null;
+        else
+          case state_v is
 
             when ST_RESET =>
-              set_pc_all((others => '0'));
-              set_state_all(ST_FETCH);
+              pc_a    <= (others => '0');
+              pc_b    <= (others => '0');
+              pc_c    <= (others => '0');
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
             when ST_FETCH =>
-              set_state_all(ST_FETCH_WAIT);
+              state_a <= ST_FETCH_WAIT;
+              state_b <= ST_FETCH_WAIT;
+              state_c <= ST_FETCH_WAIT;
 
             when ST_FETCH_WAIT =>
               instr_pc  <= pc_v;
               instr_reg <= imem_instr;
 
-              set_state_all(ST_DECODE);
+              state_a <= ST_DECODE;
+              state_b <= ST_DECODE;
+              state_c <= ST_DECODE;
 
             when ST_DECODE =>
               cur_rs1_addr    <= rs1;
@@ -671,95 +816,164 @@ begin
 
               next_pc_reg     <= std_logic_vector(unsigned(pc_v) + 4);
 
-              set_state_all(ST_RF_WAIT);
+              state_a <= ST_RF_WAIT;
+              state_b <= ST_RF_WAIT;
+              state_c <= ST_RF_WAIT;
 
             when ST_RF_WAIT =>
               cur_rs1_val <= reg_rs1;
               cur_rs2_val <= reg_rs2;
 
               if cur_illegal = '1' or cur_is_ebreak = '1' or cur_is_ecall = '1' or take_timer_irq = '1' then
-                set_state_all(ST_TRAP);
+                state_a <= ST_TRAP;
+                state_b <= ST_TRAP;
+                state_c <= ST_TRAP;
               elsif cur_is_mret = '1' then
-                set_state_all(ST_MRET);
+                state_a <= ST_MRET;
+                state_b <= ST_MRET;
+                state_c <= ST_MRET;
               elsif cur_csr_en = '1' then
-                set_state_all(ST_EXEC_CSR);
+                state_a <= ST_EXEC_CSR;
+                state_b <= ST_EXEC_CSR;
+                state_c <= ST_EXEC_CSR;
               elsif cur_mem_read = '1' then
-                set_state_all(ST_EXEC_LOAD_ADDR);
+                state_a <= ST_EXEC_LOAD_ADDR;
+                state_b <= ST_EXEC_LOAD_ADDR;
+                state_c <= ST_EXEC_LOAD_ADDR;
               elsif cur_mem_write = '1' then
-                set_state_all(ST_EXEC_STORE_ADDR);
+                state_a <= ST_EXEC_STORE_ADDR;
+                state_b <= ST_EXEC_STORE_ADDR;
+                state_c <= ST_EXEC_STORE_ADDR;
               elsif cur_branch = '1' then
-                set_state_all(ST_EXEC_BRANCH);
+                state_a <= ST_EXEC_BRANCH;
+                state_b <= ST_EXEC_BRANCH;
+                state_c <= ST_EXEC_BRANCH;
               elsif cur_jump = '1' or cur_jalr = '1' then
-                set_state_all(ST_EXEC_JUMP);
+                state_a <= ST_EXEC_JUMP;
+                state_b <= ST_EXEC_JUMP;
+                state_c <= ST_EXEC_JUMP;
               else
-                set_state_all(ST_EXEC_ALU);
+                state_a <= ST_EXEC_ALU;
+                state_b <= ST_EXEC_ALU;
+                state_c <= ST_EXEC_ALU;
               end if;
 
             when ST_EXEC_ALU =>
               exec_result <= alu_result;
 
-              set_state_all(ST_WB);
+              state_a <= ST_WB;
+              state_b <= ST_WB;
+              state_c <= ST_WB;
 
             when ST_EXEC_LOAD_ADDR =>
               mem_addr_reg <= calc_mem_addr;
 
-              set_state_all(ST_MEM_READ);
+              state_a <= ST_MEM_READ;
+              state_b <= ST_MEM_READ;
+              state_c <= ST_MEM_READ;
 
             when ST_EXEC_STORE_ADDR =>
               mem_addr_reg <= calc_mem_addr;
 
-              set_state_all(ST_MEM_WRITE);
+              state_a <= ST_MEM_WRITE;
+              state_b <= ST_MEM_WRITE;
+              state_c <= ST_MEM_WRITE;
 
             when ST_EXEC_BRANCH =>
               if br_take = '1' then
-                set_pc_all(branch_target);
+                pc_a <= branch_target;
+                pc_b <= branch_target;
+                pc_c <= branch_target;
               else
-                set_pc_all(next_pc_reg);
+                pc_a <= next_pc_reg;
+                pc_b <= next_pc_reg;
+                pc_c <= next_pc_reg;
               end if;
 
-              set_state_all(ST_FETCH);
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
             when ST_EXEC_JUMP =>
               exec_result <= pc_plus4;
 
               if cur_jalr = '1' then
-                set_pc_all(jalr_target);
+                pc_a <= jalr_target;
+                pc_b <= jalr_target;
+                pc_c <= jalr_target;
               else
-                set_pc_all(branch_target);
+                pc_a <= branch_target;
+                pc_b <= branch_target;
+                pc_c <= branch_target;
               end if;
 
-              set_state_all(ST_WB);
+              state_a <= ST_WB;
+              state_b <= ST_WB;
+              state_c <= ST_WB;
 
             when ST_EXEC_CSR =>
               csr_read_reg <= csr_rdata;
 
-              set_state_all(ST_WB);
+              state_a <= ST_WB;
+              state_b <= ST_WB;
+              state_c <= ST_WB;
 
             when ST_MEM_READ =>
               load_data_reg <= load_data_aligned;
 
-              set_state_all(ST_WB);
+              state_a <= ST_WB;
+              state_b <= ST_WB;
+              state_c <= ST_WB;
 
             when ST_MEM_WRITE =>
-              set_pc_all(next_pc_reg);
+              if is_acc_addr = '1' then
+                case mem_addr_reg(7 downto 0) is
+                  when x"00" =>
+                    if cur_rs2_val(0) = '1' then
+                      acc_start_pulse <= '1';
+                      acc_done_sticky <= '0';
+                    end if;
+                  when x"04" => acc_a_base <= cur_rs2_val;
+                  when x"08" => acc_b_base <= cur_rs2_val;
+                  when x"0C" => acc_c_base <= cur_rs2_val;
+                  when x"10" => acc_m      <= cur_rs2_val;
+                  when x"14" => acc_n      <= cur_rs2_val;
+                  when x"18" => acc_k      <= cur_rs2_val;
+                  when others => null;
+                end case;
+              end if;
 
-              set_state_all(ST_FETCH);
+              pc_a <= next_pc_reg;
+              pc_b <= next_pc_reg;
+              pc_c <= next_pc_reg;
+
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
             when ST_TRAP =>
               trap_enter    <= '1';
               trap_pc_in    <= instr_pc;
               trap_cause_in <= trap_cause_sel;
 
-              set_pc_all(csr_mtvec);
+              pc_a <= csr_mtvec;
+              pc_b <= csr_mtvec;
+              pc_c <= csr_mtvec;
 
-              set_state_all(ST_FETCH);
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
             when ST_MRET =>
               mret_exec <= '1';
 
-              set_pc_all(csr_mepc);
+              pc_a <= csr_mepc;
+              pc_b <= csr_mepc;
+              pc_c <= csr_mepc;
 
-              set_state_all(ST_FETCH);
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
             when ST_WB =>
               if cur_reg_write = '1' and cur_rd_addr /= "00000" then
@@ -778,15 +992,32 @@ begin
               end if;
 
               if cur_jump = '0' and cur_jalr = '0' then
-                set_pc_all(next_pc_reg);
+                pc_a <= next_pc_reg;
+                pc_b <= next_pc_reg;
+                pc_c <= next_pc_reg;
               end if;
 
-              set_state_all(ST_FETCH);
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
             when others =>
-              set_state_all(ST_FETCH);
+              state_a <= ST_FETCH;
+              state_b <= ST_FETCH;
+              state_c <= ST_FETCH;
 
-        end case;
+          end case;
+        end if;
+
+        -- In baseline mode there is no redundant copy to vote against, so make
+        -- injected control upsets persistent by flipping the live register copy.
+        if G_FAULT_INJECT and (not G_PC_TMR) and fi_pc_strobe_i = '1' and fi_pc_target_i = "00" then
+          pc_a <= pc_a xor fi_pc_mask_i;
+        end if;
+
+        if G_FAULT_INJECT and (not G_STATE_TMR) and fi_state_strobe_i = '1' and fi_state_target_i = "00" then
+          state_a <= slv_to_state(state_enc_a xor fi_state_mask_i);
+        end if;
       end if;
     end if;
   end process;
@@ -812,9 +1043,5 @@ begin
   end process;
 
   watchdog_reset_o <= watchdog_reset;
-  pc_tmr_error_o      <= pc_tmr_error;
-  state_tmr_error_o   <= state_tmr_error;
-  regfile_tmr_error_o <= regfile_tmr_error;
 
 end rtl;
-

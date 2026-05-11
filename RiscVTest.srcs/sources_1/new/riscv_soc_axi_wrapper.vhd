@@ -46,7 +46,7 @@ architecture Behavioral of riscv_soc_axi_wrapper is
     --   bit 3 : dmem_write      (pulse on write = 1)
     --   bit 4 : clear_status    (pulse on write = 1)
     --   bit 5 : prog_mode       (level)
-    --   bit 6 : reserved
+    --   bit 6 : uart_boot_mode  (level, used when prog_mode = 0)
     --
     -- 0x04 STATUS
     --   bit 0 : cpu_enable
@@ -56,7 +56,7 @@ architecture Behavioral of riscv_soc_axi_wrapper is
     --   bit 4 : fail_seen
     --   bit 5 : prog_mode
     --   bit 6 : boot_error
-    --   bit 7 : reserved
+    --   bit 7 : uart_boot_mode
     --   bit 8 : uart_inject_busy
     --
     -- 0x08 IMEM_ADDR   (byte address for prog port)
@@ -105,6 +105,7 @@ architecture Behavioral of riscv_soc_axi_wrapper is
 
     signal cpu_enable_reg      : STD_LOGIC := '0';
     signal prog_mode_reg       : STD_LOGIC := '0';
+    signal uart_boot_mode_reg  : STD_LOGIC := '0';
 
     signal imem_addr_reg       : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     signal imem_wdata_reg      : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
@@ -130,6 +131,14 @@ architecture Behavioral of riscv_soc_axi_wrapper is
     signal dmem_we_dbg         : STD_LOGIC;
     signal dmem_addr_dbg       : STD_LOGIC_VECTOR(31 downto 0);
     signal dmem_wdata_dbg      : STD_LOGIC_VECTOR(31 downto 0);
+    signal qspi_sck            : STD_LOGIC;
+    signal qspi_cs_n           : STD_LOGIC;
+    signal qspi_io0            : STD_LOGIC;
+    signal qspi_io1            : STD_LOGIC;
+    signal qspi_io2            : STD_LOGIC;
+    signal qspi_io3            : STD_LOGIC;
+    signal soc_boot_mode       : STD_LOGIC;
+
     signal pass_latched        : STD_LOGIC := '0';
     signal fail_latched        : STD_LOGIC := '0';
     signal last_dmem_we_reg    : STD_LOGIC := '0';
@@ -144,6 +153,8 @@ begin
     reset <= not S_AXI_ARESETN;
 
     core_reset <= reset or soft_reset_pulse;
+    soc_boot_mode <= uart_boot_mode_reg when prog_mode_reg = '0' else '1';
+
     ----------------------------------------------------------------------------
     -- AXI-driven UART injector
     --
@@ -210,6 +221,7 @@ begin
 
                 cpu_enable_reg     <= '0';
                 prog_mode_reg      <= '0';
+                uart_boot_mode_reg <= '0';
                 imem_addr_reg      <= (others => '0');
                 imem_wdata_reg     <= (others => '0');
                 dmem_addr_reg      <= (others => '0');
@@ -246,6 +258,7 @@ begin
                         when REG_CONTROL =>
                             cpu_enable_reg <= wdata_int(0);
                             prog_mode_reg  <= wdata_int(5);
+                            uart_boot_mode_reg <= wdata_int(6);
 
                             if wdata_int(1) = '1' then
                                 soft_reset_pulse <= '1';
@@ -343,13 +356,13 @@ begin
                 status_reg(4) := fail_latched;
                 status_reg(5) := prog_mode_reg;
                 status_reg(6) := boot_error_dbg;
-                status_reg(7) := '0';
+                status_reg(7) := uart_boot_mode_reg;
                 status_reg(8) := uart_inject_busy;
 
                 case reg_index is
                     when REG_CONTROL =>
                         axi_rdata_int <= (31 downto 7 => '0') &
-                                         '0' &
+                                         uart_boot_mode_reg &
                                          prog_mode_reg &
                                          '0' & '0' & '0' & '0' &
                                          cpu_enable_reg;
@@ -453,7 +466,8 @@ begin
       generic map(
         CLK_FREQ_HZ => CLK_FREQ_HZ,
         BAUD        => UART_BAUD,
-        IMEM_WORDS  => 4096
+        IMEM_WORDS  => 4096,
+        SPI_CLK_DIV => 100
       )
       port map(
         clk       => clk,
@@ -461,6 +475,13 @@ begin
         uart_rx_i => uart_inject_rx,
         uart_tx_o => uart_tx_o,
         led0_o    => led0_o,
+        boot_mode_i => soc_boot_mode,
+        qspi_sck_o  => qspi_sck,
+        qspi_cs_n_o => qspi_cs_n,
+        qspi_io0_o  => qspi_io0,
+        qspi_io1_i  => qspi_io1,
+        qspi_io2_o  => qspi_io2,
+        qspi_io3_o  => qspi_io3,
 
         boot_done_o  => boot_done_dbg,
         boot_error_o => boot_error_dbg,
@@ -480,6 +501,14 @@ begin
         ext_dmem_we_i     => dmem_we_pulse,
         ext_dmem_addr_i   => dmem_addr_reg,
         ext_dmem_wdata_i  => dmem_wdata_reg
+      );
+
+    u_fake_flash : entity work.fake_spi_flash
+      port map(
+        sck_i  => qspi_sck,
+        cs_n_i => qspi_cs_n,
+        mosi_i => qspi_io0,
+        miso_o => qspi_io1
       );
 
 end Behavioral;
